@@ -1,0 +1,157 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: '@PixelbonusSiteBundle/Resources/config/services.yml' }
+    - { resource: '@PixelbonusUserBundle/Resources/config/services.yml' }
+
+framework:
+    #esi:             ~
+    translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    default_locale:  %locale%
+    session:         ~
+    http_method_override: true
+
+parameters:
+    locales: [el, en]
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    globals:
+        locales: %locales%
+        host: "//spatial.lab.teiath.gr"
+    form:
+        resources:
+          - 'bootstrap_3_layout.html.twig'
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: %kernel.root_dir%/Resources/java/compiler.jar
+        #yui_css:
+        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+        #unix_socket:	/var/mysql/mysql.sock
+    orm:
+        dql:
+            numeric_functions:
+                              ACOS: DoctrineExtensions\Query\Mysql\Acos
+                              SIN: DoctrineExtensions\Query\Mysql\Sin
+                              RADIANS: DoctrineExtensions\Query\Mysql\Radians
+                              COS: DoctrineExtensions\Query\Mysql\Cos
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+        mappings:
+            gedmo_translatable:
+                type: annotation
+                prefix: Gedmo\Translatable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+            gedmo_translator:
+                type: annotation
+                prefix: Gedmo\Translator\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+            gedmo_tree:
+                type: annotation
+                prefix: Gedmo\Tree\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport:  %mailer_transport%
+    encryption: %mailer_encryption%
+    auth_mode:  %mailer_auth_mode%
+    host:       %mailer_host%
+    port:       %mailer_port%
+    username:   %mailer_user%
+    password:   %mailer_password%
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: Pixelbonus\UserBundle\Entity\User
+    profile:
+        form:
+            type: pixelbonus_user_profile
+    registration:
+        form:
+            type: pixelbonus_user_registration
+
+services:
+    cache:
+        class: Doctrine\Common\Cache\ApcCache
+    pixelbonus.twig.extension.array:
+        class: Twig_Extensions_Extension_Array
+        tags:
+             - { name: 'twig.extension' }
+    pixelbonus.twig.extension:
+        class: Pixelbonus\CommonBundle\Extension\TwigExtension
+        arguments:
+            - "@service_container"
+        tags:
+            -  { name: twig.extension }
+    pixelbonus.twig.timeago_extension:
+        class: Pixelbonus\CommonBundle\Extension\TimeAgoExtension
+        arguments:
+            - "@translator"
+        tags:
+        -  { name: twig.extension }
+    pixelbonus_user.profile.form.type:
+       class: Pixelbonus\UserBundle\Form\Type\ProfileFormType
+       arguments: [%fos_user.model.user.class%]
+       tags:
+           - { name: form.type, alias: pixelbonus_user_profile }
+    pixelbonus_user.registration.form.type:
+        class: Pixelbonus\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: pixelbonus_user_registration }
+
+jms_i18n_routing:
+    default_locale: %locale%
+    locales: %locales%
+    strategy: prefix_except_default
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            timestampable: true
+            blameable: true
+            loggable: true
+            uploadable: true

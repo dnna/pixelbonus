@@ -1,0 +1,5 @@
+form:
+    name: "First Name:"
+    surname: "Last Name:"
+    password_confirmation: "Confirm Password:"
+    forgot_password: I forgot my password

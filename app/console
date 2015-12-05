@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+// if you don't want to setup permissions the proper way, just uncomment the following PHP line
+// read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information
+//umask(0000);
+
+set_time_limit(0);
+
+require_once __DIR__.'/bootstrap.php.cache';
+require_once __DIR__.'/AppKernel.php';
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+$input = new ArgvInput();
+$env = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'dev');
+$debug = getenv('SYMFONY_DEBUG') !== '0' && !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
+
+$kernel = new AppKernel($env, $debug);
+class ExtApplication extends Application {
+    public function renderException($e, $output) {
+        // Compose an email with the Exception
+        $container = $this->getKernel()->getContainer();
+        $message = \Swift_Message::newInstance()
+                ->setContentType('text/html')
+                ->setSubject('Pixelbonus Console Error')
+                ->setFrom('info@pixelbonus.com', 'Pixelbonus')
+                //->setReplyTo($replyTo)
+                ->setTo('info@pixelbonus.com')
+                ->setBody(nl2br($e->__toString()));
+        if(isset($container)) {
+            $container->get('mailer')->send($message);
+        }
+        return parent::renderException($e, $output);
+    }
+}
+$application = new ExtApplication($kernel);
+$application->run($input);

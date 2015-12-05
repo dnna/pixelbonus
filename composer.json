@@ -1,0 +1,46 @@
+{
+    "name": "dnna/pixelbonus",
+    "description": "Pixelbonus",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "require": {
+        "php": ">=5.4",
+        "symfony/symfony": "2.6.*",
+        "doctrine/orm": "2.5.*@dev",
+        "doctrine/doctrine-bundle": "dev-master",
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "doctrine/doctrine-cache-bundle": "*",
+        "twig/extensions": "1.2.*",
+        "symfony/assetic-bundle": "2.6.*",
+        "symfony/swiftmailer-bundle": "2.3.*",
+        "symfony/monolog-bundle": "2.6.*",
+        "sensio/distribution-bundle": "3.0.*",
+        "sensio/framework-extra-bundle": "3.0.*",
+        "jms/i18n-routing-bundle": "dev-master",
+        "jms/security-extra-bundle": "1.5.*",
+        "friendsofsymfony/user-bundle": "*",
+        "stof/doctrine-extensions-bundle": "*",
+        "gedmo/doctrine-extensions": "v2.4.0",
+        "ruudk/capifony-tools": "dev-master"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web"
+    }
+}
