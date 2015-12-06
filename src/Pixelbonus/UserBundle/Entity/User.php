@@ -32,9 +32,13 @@ class User extends BaseUser
      */
     protected $surname;
     /**
-     * @ORM\Column(name="institution", type="string", nullable=true)
+     * @ORM\Column(name="organization", type="string", nullable=true)
      */
-    protected $institution;
+    protected $organization;
+    /**
+     * @ORM\Column(name="department", type="string", nullable=true)
+     */
+    protected $department;
 
     public function __construct() {
         parent::__construct();
@@ -64,11 +68,19 @@ class User extends BaseUser
         $this->surname = $surname;
     }
 
-    function getInstitution() {
-        return $this->institution;
+    function getOrganization() {
+        return $this->organization;
     }
 
-    function setInstitution($institution) {
-        $this->institution = $institution;
+    function getDepartment() {
+        return $this->department;
+    }
+
+    function setOrganization($organization) {
+        $this->organization = $organization;
+    }
+
+    function setDepartment($department) {
+        $this->department = $department;
     }
 }

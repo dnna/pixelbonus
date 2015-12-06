@@ -2,7 +2,8 @@ form:
     name: "Όνομα"
     surname: "Επώνυμο"
     password_confirmation: "Επαλήθευση Κωδικού"
-    institution: "Φορέας"
+    organization: "Οργανισμός"
+    department: "Τμήμα"
     forgot_password: Ξέχασα τον κωδικό μου
 
 resetting:

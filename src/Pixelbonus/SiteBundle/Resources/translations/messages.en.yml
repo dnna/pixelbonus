@@ -1,5 +1,7 @@
 header:
     choose_language: Choose language
+    logout: Logout
+    my_courses: My activities
 
 home:
     motto: Your participation counts
@@ -7,5 +9,11 @@ home:
     im_instructor: I'm an instructor
 
 courses:
-    no_courses: You haven't created any activities/courses yet
+    no_courses: You haven't created any activities yet
     create_first: Create your first activity
+    new: New activity
+    form:
+        name: Enter the name of your course
+        enrolledParticipants: "Number of enrolled participants (optional)"
+        create: Create
+        create_another: Create and add another

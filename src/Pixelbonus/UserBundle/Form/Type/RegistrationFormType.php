@@ -15,7 +15,8 @@ class RegistrationFormType extends BaseType
             ->remove('plainPassword')
             ->add('name', 'text', array('label' => 'form.name', 'translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'form.name')))
             ->add('surname', 'text', array('label' => 'form.surname', 'translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'form.surname')))
-            ->add('institution', null, array('label' => 'form.institution', 'translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'form.institution')))
+            ->add('organization', null, array('label' => 'form.organization', 'translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'form.organization')))
+            ->add('department', null, array('label' => 'form.department', 'translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'form.department')))
             ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'form.email')))
             ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'form.username')))
             ->add('plainPassword', 'password', array(

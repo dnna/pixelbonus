@@ -70,6 +70,18 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
+    {% if app.user != null and is_granted('ROLE_USER') %}
+    <nav class="navbar navbar-user navbar-fixed-top navbar-shrink">
+        <div class="container">
+            <div class="pull-left">
+                {% if '/courses' in app.request.requestUri %}<a href="{{path('courses')}}">{{'header.my_courses'|trans}}</a>{% endif %}
+            </div>
+            <div class="pull-right">
+                {{app.user.name}} (<a href="{{path('fos_user_security_logout')}}">{{'header.logout'|trans}}</a>)
+            </div>
+        </div>
+    </nav>
+    {% endif %}
 
     {% block content %}{% endblock %}
 
@@ -98,6 +110,8 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{asset('js/freelancer.js')}}"></script>
+
+    {% block javascripts %}{% endblock %}
 
 </body>
 
