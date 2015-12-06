@@ -1,0 +1,24 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{course.name}}</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <a href="#" id="new-qr-set" class="btn btn-success btn-lg">{{'courses.create_qr_set'|trans}}</a>
+                <p><br /><small>{{'courses.qr_set_hint'|trans}}</small></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('js/pages/courses.js')}}"></script>
+{% endblock %}

@@ -39,9 +39,15 @@ class User extends BaseUser
      * @ORM\Column(name="department", type="string", nullable=true)
      */
     protected $department;
+     /**
+     * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Course", mappedBy="user")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $courses;
 
     public function __construct() {
         parent::__construct();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId() {
@@ -82,5 +88,13 @@ class User extends BaseUser
 
     function setDepartment($department) {
         $this->department = $department;
+    }
+
+    function getCourses() {
+        return $this->courses;
+    }
+
+    function setCourses($courses) {
+        $this->courses = $courses;
     }
 }
