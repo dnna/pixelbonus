@@ -31,9 +31,12 @@ class User extends BaseUser
      * @ORM\Column(name="surname", type="string", nullable=true)
      */
     protected $surname;
+    /**
+     * @ORM\Column(name="institution", type="string", nullable=true)
+     */
+    protected $institution;
 
     public function __construct() {
-        $this->userScore = new ArrayCollection();
         parent::__construct();
     }
 
@@ -59,5 +62,13 @@ class User extends BaseUser
 
     public function setSurname($surname) {
         $this->surname = $surname;
+    }
+
+    function getInstitution() {
+        return $this->institution;
+    }
+
+    function setInstitution($institution) {
+        $this->institution = $institution;
     }
 }

@@ -1,5 +1,10 @@
 form:
-    name: "Όνομα:"
-    surname: "Επώνυμο:"
-    password_confirmation: "Επαλήθευση Κωδικού:"
+    name: "Όνομα"
+    surname: "Επώνυμο"
+    password_confirmation: "Επαλήθευση Κωδικού"
+    institution: "Φορέας"
     forgot_password: Ξέχασα τον κωδικό μου
+
+resetting:
+    request:
+        username: Όνομα χρήστη ή e-mail

@@ -5,3 +5,7 @@ home:
     motto: Η συμμετοχή σου μετράει
     im_participant: Είμαι συμμετέχων
     im_instructor: Είμαι εισηγητής
+
+courses:
+    no_courses: Δεν έχετε δημιουργήσει κάποια δραστηριότητα
+    create_first: Δημιουργήστε την πρώτη σας

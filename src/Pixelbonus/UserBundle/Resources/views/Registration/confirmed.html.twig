@@ -1,0 +1,23 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="span12 well text-center">
+            <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+            {% if app.session is not empty %}
+                {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+                {% if targetUrl is not empty %}
+                    <p><a class="btn" href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+                {% else %}
+                    <p><a class="btn" href="{{ path('home') }}">{{ 'registration.back'|trans }}</a></p>
+                {% endif %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

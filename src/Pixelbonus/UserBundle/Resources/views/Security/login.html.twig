@@ -1,0 +1,62 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block title %}{{'common.login'|trans({}, 'messages')}}{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+{% if error is defined and error %}
+    <div class="alert alert-danger alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{'layout.login'|trans}}</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form action="{{ path("fos_user_security_check", {'_locale': 'el'}) }}" method="post">
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>{{'security.login.username'|trans}}</label>
+                            <input type="text" class="form-control" placeholder="Username" id="username" name="_username" required data-validation-required-message="Please enter your username.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>{{'security.login.password'|trans}}</label>
+                            <input type="password" class="form-control" placeholder="Password" id="password" name="_password" required data-validation-required-message="Please enter your password.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    {#<div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <input type="checkbox" name="_remember_me"> {{'security.login.remember_me'|trans}}
+                        </div>
+                    </div>#}
+                    <br>
+                    <div id="success"></div>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <button type="submit" name="_submit" class="btn btn-success btn-lg">{{'layout.login'|trans}}</button>
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{{path('fos_user_resetting_request')}}">{{'form.forgot_password'|trans}}</a>
+                    </div>
+                    <hr />
+                    <div>
+                        <a href="{{path('fos_user_registration_register')}}">{{'layout.register'|trans}}</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

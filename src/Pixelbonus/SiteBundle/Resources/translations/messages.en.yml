@@ -5,3 +5,7 @@ home:
     motto: Your participation counts
     im_participant: I'm a participant
     im_instructor: I'm an instructor
+
+courses:
+    no_courses: You haven't created any activities/courses yet
+    create_first: Create your first activity

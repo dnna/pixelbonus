@@ -1,5 +1,10 @@
 form:
-    name: "First Name:"
-    surname: "Last Name:"
-    password_confirmation: "Confirm Password:"
+    name: "First Name"
+    surname: "Last Name"
+    password_confirmation: "Confirm Password"
+    institution: "Institution"
     forgot_password: I forgot my password
+
+resetting:
+    request:
+        username: Username or email

@@ -1,0 +1,44 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block content %}
+<!-- Header -->
+<header>
+    <div class="container">
+        <h2>{{'home.motto'|trans}}</h2>
+        <hr class="star-light">
+        <div class="row">
+            <div class="col-lg-6">
+                <img class="img-responsive" style="width: 30%;" src="{{asset('img/profile.png')}}" alt="">
+                <div class="intro-text border-r" style="margin-right: -15px; padding-left: 40px; padding-right: 55px;">
+                    <a class="name btn btn-default">{{'home.im_participant'|trans}}</a>
+                    <br>
+                    <span class="skills">Cupcake ipsum dolor sit amet caramels I love topping. Jelly beans tart carrot cake I love. Dessert pudding chocolate cake lemon drops fruitcake tiramisu gummi bears soufflé. Powder jelly gingerbread biscuit. Brownie tart candy gummies lemon drops biscuit tiramisu sugar plum. Sweet cake cotton candy I love sesame snaps pie cheesecake toffee chupa chups.</span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img class="img-responsive" style="width: 30%;" src="{{asset('img/profile.png')}}" alt="">
+                <div class="intro-text" style="padding-left: 40px; padding-right: 40px;">
+                    <a href="{{path('courses')}}" class="name btn btn-default">{{'home.im_instructor'|trans}}</a>
+                    <br>
+                    <span class="skills">Sesame snaps tart cupcake danish apple pie pie jujubes lemon drops sugar plum. Jelly tart powder sesame snaps tart liquorice. Sweet roll pudding chupa chups caramels dragée gummi bears bonbon danish lollipop. Topping cotton candy powder I love cake carrot cake macaroon. Candy canes chocolate liquorice tart sugar plum. Chocolate bar oat cake I love caramels oat cake halvah.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block footer %}
+<!-- Footer -->
+<footer class="text-center">
+    <div class="footer-below">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    Copyright &copy; Pixelbonus {{'now'|date('Y')}}
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

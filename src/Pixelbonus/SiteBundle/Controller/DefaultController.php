@@ -20,4 +20,12 @@ class DefaultController extends Controller {
     public function coursesAction() {
         return $this->render('PixelbonusSiteBundle:Courses:courses.html.twig', array());
     }
+
+    /**
+     * @Route("/courses/new", name="new_course")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function newCourseAction() {
+        return $this->render('PixelbonusSiteBundle:Courses:new.html.twig', array());
+    }
 }

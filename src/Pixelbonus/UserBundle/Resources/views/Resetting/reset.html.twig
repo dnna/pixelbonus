@@ -1,0 +1,32 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block title %}{{'form.forgot_password'|trans}}{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{'form.forgot_password'|trans}}</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset">
+                    {{form_widget(form)}}
+                    <br>
+                    <div id="success"></div>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <input type="submit" class="btn btn-success btn-lg" value="{{ 'resetting.reset.submit'|trans }}" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

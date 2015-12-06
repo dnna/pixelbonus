@@ -31,7 +31,7 @@ twig:
         host: "//spatial.lab.teiath.gr"
     form:
         resources:
-          - 'bootstrap_3_layout.html.twig'
+          - 'PixelbonusSiteBundle:Form:form_fields.html.twig'
 
 # Assetic Configuration
 assetic:

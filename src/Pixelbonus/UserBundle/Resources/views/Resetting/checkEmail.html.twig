@@ -1,0 +1,14 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block title %}{{'form.forgot_password'|trans}}{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <p>
+        {{ 'resetting.check_email'|trans({'%email%': email}) }}
+        </p>
+    </div>
+{% endblock %}
