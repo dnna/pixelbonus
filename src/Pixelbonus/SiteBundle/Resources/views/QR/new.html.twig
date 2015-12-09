@@ -29,5 +29,12 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        var existingTags = [{% spaceless %}
+            {% for tag in existingTags %}
+                "{{tag.name}}"{% if not loop.last %},{% endif %}
+            {% endfor %}
+        {% endspaceless%}];
+    </script>
     <script src="{{asset('js/pages/qrsets.js')}}"></script>
 {% endblock %}

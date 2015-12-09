@@ -29,6 +29,10 @@ section h2 {
 .select2-no-results {
     display: none !important;
 }
+
+section {
+    padding: 112px 0;
+}
 /* End common */
 
 /* Header */
@@ -50,6 +54,10 @@ section h2 {
 
 .navbar-user .container a {
     color: #fff;
+}
+
+.navbar-user {
+    min-height: 30px;
 }
 
 @media (min-width: 768px) {

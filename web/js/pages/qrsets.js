@@ -9,6 +9,7 @@ $(function() {
 
         $("#qrset_tagsFromString").select2({
             tags: true,
+            data: existingTags,
             placeholder: "Tags (e.g. 2016, Seminar 2)",
             "language": {
                 "noResults": function(){

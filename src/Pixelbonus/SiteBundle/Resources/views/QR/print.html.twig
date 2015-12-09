@@ -1,0 +1,15 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <p>Printing will start soon. If the print dialog does not open in the next few seconds click <a href="{{path('generate_qr', {'qrset': qrset.id, 'quantity': quantity})}}">here</a> to download as PDF.</p>
+        <p><a href="{{path('course', {'course': qrset.course.id})}}">Return to course</a></p>
+        <iframe id="qr-iframe" style="display: none;" src="{{path('generate_qr', {'qrset': qrset.id, 'quantity': quantity, 'html': 'true'})}}"></iframe>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('js/pages/print.js')}}"></script>
+{% endblock %}
