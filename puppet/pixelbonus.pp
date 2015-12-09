@@ -104,7 +104,7 @@ exec { 'composer-update':
   path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
   cwd     => '/var/www/pixelbonus',
   environment => [ "COMPOSER_HOME=/usr/local/bin" ],
-  require => [ Class['composer'], Exec['wkhtmltopdf'], Exec['xvfb'] ],
+  require => [ Class['composer'], Package['wkhtmltopdf'], Package['xvfb'] ],
 }
 
 exec { 'schema-update':
