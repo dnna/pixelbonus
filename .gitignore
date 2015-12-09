@@ -8,3 +8,4 @@ build/
 composer.phar
 *parameters.yml*
 /nbproject/private/
+!/app/config/parameters.yml.dist

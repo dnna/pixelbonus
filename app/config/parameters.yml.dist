@@ -1,0 +1,17 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: pixelbonus
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: smtp.gmail.com
+    mailer_encryption: tls
+    mailer_port: 587
+    mailer_auth_mode: login
+    mailer_user: dnna@datapack.gr
+    mailer_password: abc
+    locale: el
+    secret: 3a81c8d57cb10f63fb93a9bd17e5684f4g
+    wkhtmltopdf: '/usr/bin/wkhtmltopdf'
