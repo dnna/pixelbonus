@@ -23,6 +23,7 @@
         "symfony/monolog-bundle": "2.6.*",
         "sensio/distribution-bundle": "3.0.*",
         "sensio/framework-extra-bundle": "3.0.*",
+        "incenteev/composer-parameter-handler": "~2.0",
         "jms/i18n-routing-bundle": "dev-master",
         "jms/security-extra-bundle": "1.5.*",
         "friendsofsymfony/user-bundle": "*",
@@ -35,12 +36,14 @@
     },
     "scripts": {
         "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ],
         "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
