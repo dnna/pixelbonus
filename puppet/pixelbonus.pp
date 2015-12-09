@@ -54,6 +54,16 @@ package { 'php5-mysql':
   require => Exec['apt-update'],        # require 'apt-update' before installing
   ensure => installed,
 }
+package { 'php5-mcrypt':
+  require => Exec['apt-update'],        # require 'apt-update' before installing
+  ensure => installed,
+}
+exec { 'enable-mcrypt':
+  command => "php5enmod mcrypt; /etc/init.d/apache2 restart",
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+  cwd     => '/etc/apache2',
+  require => [ Package['php5-mcrypt'] ],
+}
 
 mysql::db { 'pixelbonus':
   user     => 'pixelbonus',
@@ -80,8 +90,11 @@ vcsrepo { "/var/www/pixelbonus":
 
 include composer
 
-# wkhtmltopdf
 package { 'wkhtmltopdf':
+  require => Exec['apt-update'],        # require 'apt-update' before installing
+  ensure => installed,
+}
+package { 'xvfb':
   require => Exec['apt-update'],        # require 'apt-update' before installing
   ensure => installed,
 }
@@ -91,7 +104,7 @@ exec { 'composer-update':
   path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
   cwd     => '/var/www/pixelbonus',
   environment => [ "COMPOSER_HOME=/usr/local/bin" ],
-  require => [ Class['composer'] ],
+  require => [ Class['composer'], Exec['wkhtmltopdf'], Exec['xvfb'] ],
 }
 
 exec { 'schema-update':
