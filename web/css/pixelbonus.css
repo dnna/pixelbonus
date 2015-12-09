@@ -9,13 +9,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 section h2 {
-    margin-top: 21px;
+    margin-top: 40px;
     font-size: 32px;
     text-transform: none;
 }
 
-.form-group.controls input {
+.form-group.controls input, .form-group.controls select {
     width: 100%;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+    font-size: 1.5em;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default .select2-selection--multiple, .select2-container--open .select2-dropdown--below {
+    border: none;
+}
+
+.select2-no-results {
+    display: none !important;
 }
 /* End common */
 

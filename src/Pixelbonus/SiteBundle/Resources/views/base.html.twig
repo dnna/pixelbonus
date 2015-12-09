@@ -16,6 +16,7 @@
 
     <!-- Custom CSS -->
     <link href="{{asset('css/freelancer.css')}}" rel="stylesheet">
+    <link href="{{asset('css/select2.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/pixelbonus.css')}}" rel="stylesheet">
 
     <!-- Custom Fonts -->
@@ -74,7 +75,7 @@
     <nav class="navbar navbar-user navbar-fixed-top navbar-shrink">
         <div class="container">
             <div class="pull-left">
-                {% if '/courses' in app.request.requestUri %}<a href="{{path('courses')}}">{{'header.my_courses'|trans}}</a>{% endif %}
+                {% if '/courses' in app.request.requestUri or '/qrset' in app.request.requestUri %}<a href="{{path('courses')}}">{{'header.my_courses'|trans}}</a>{% endif %}
             </div>
             <div class="pull-right">
                 {{app.user.name}} (<a href="{{path('fos_user_security_logout')}}">{{'header.logout'|trans}}</a>)
@@ -110,6 +111,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{asset('js/freelancer.js')}}"></script>
+    <script src="{{asset('js/select2.full.min.js')}}"></script>
 
     {% block javascripts %}{% endblock %}
 

@@ -25,6 +25,8 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             // User Bundle
             new FOS\UserBundle\FOSUserBundle(),
+            // Snappy Bundle
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             // JMS
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             // Doctrine Extensions

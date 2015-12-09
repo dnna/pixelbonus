@@ -147,6 +147,12 @@ jms_i18n_routing:
     locales: %locales%
     strategy: prefix_except_default
 
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     %wkhtmltopdf%
+        options:    []
+
 stof_doctrine_extensions:
     default_locale: en_US
     orm:

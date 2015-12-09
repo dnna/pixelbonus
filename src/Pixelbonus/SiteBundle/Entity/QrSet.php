@@ -2,6 +2,7 @@
 namespace Pixelbonus\SiteBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -25,15 +26,23 @@ class QrSet {
      */
     protected $course;
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $salt;
-    /**
      * @ORM\Column(type="integer")
      */
-    protected $firstFree;
+    protected $firstFree = 0;
+    /**
+     * @ORM\ManyToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Tag", cascade={"persist"}, fetch="EAGER")
+     * @ORM\JoinTable(name="qrset_tags",
+     *      joinColumns={@ORM\JoinColumn(name="qrset_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $tags;
 
     protected $quantity; // Non-persistent
+
+    public function __construct() {
+        $this->tags = new ArrayCollection();
+    }
 
     function getId() {
         return $this->id;
@@ -47,10 +56,6 @@ class QrSet {
         return $this->course;
     }
 
-    function getSalt() {
-        return $this->salt;
-    }
-
     function getFirstFree() {
         return $this->firstFree;
     }
@@ -59,12 +64,28 @@ class QrSet {
         $this->course = $course;
     }
 
-    function setSalt($salt) {
-        $this->salt = $salt;
-    }
-
     function setFirstFree($firstFree) {
         $this->firstFree = $firstFree;
+    }
+
+    function getTags() {
+        return $this->tags;
+    }
+
+    function setTags($tags) {
+        $this->tags = $tags;
+    }
+
+    function setTagsFromString($tagsFromString) {
+        $this->tagsFromString = $tagsFromString;
+    }
+
+    function getTagsFromString() {
+        $string = array();
+        foreach($this->tags as $curTag) {
+            $string[] = $curTag->getName();
+        }
+        return $string;
     }
 
     function getQuantity() {

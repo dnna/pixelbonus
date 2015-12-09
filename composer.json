@@ -4,6 +4,12 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/steinsag/phpqrcode"
+        }
+    ],
     "require": {
         "php": ">=5.4",
         "symfony/symfony": "2.6.*",
@@ -21,8 +27,11 @@
         "jms/security-extra-bundle": "1.5.*",
         "friendsofsymfony/user-bundle": "*",
         "stof/doctrine-extensions-bundle": "*",
+        "knplabs/knp-snappy-bundle": "dev-master",
         "gedmo/doctrine-extensions": "v2.4.0",
-        "ruudk/capifony-tools": "dev-master"
+        "ruudk/capifony-tools": "dev-master",
+        "t0k4rt/phpqrcode": "dev-composer",
+        "christian-riesen/base32": "1.2.*"
     },
     "scripts": {
         "post-install-cmd": [

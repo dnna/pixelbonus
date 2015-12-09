@@ -4,15 +4,26 @@ namespace Pixelbonus\SiteBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class QrSetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options = array())
     {
+        $tagOptions = array('multiple' => true, 'required' => false, 'label' => 'qr.form.tags', 'attr' => array('placeholder' => 'qr.form.tags'));
         $builder
-            ->add('quantity', null, array('required' => true, 'label' => 'qrsets.form.quantity', 'attr' => array('placeholder' => 'qrsets.form.quantity')))
+            ->add('tagsFromString', 'choice', $tagOptions)
+            ->add('quantity', null, array('required' => true, 'label' => 'qr.form.quantity', 'attr' => array('placeholder' => 'qr.form.quantity')))
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($tagOptions) {
+           $data = $event->getData();
+           if(is_array($data['tagsFromString'])) { $data=array_flip($data['tagsFromString']);
+           } else { $data = array(); }
+           $event->getForm()->add('tagsFromString', 'choice', array_merge($tagOptions, array('choices' => $data,)));
+        });
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
