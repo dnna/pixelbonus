@@ -14,9 +14,24 @@ package { 'apache2':
   ensure => installed,
 }
 
+exec { 'allow-override':
+  command => "sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf",
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+  cwd     => '/etc/apache2',
+  require => [ Package['apache2'] ],
+}
+
+exec { 'enable-mod-rewrite':
+  command => "a2enmod rewrite; /etc/init.d/apache2 restart",
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+  cwd     => '/etc/apache2',
+  require => [ Exec['allow-override'] ],
+}
+
 # ensure apache2 service is running
 service { 'apache2':
   ensure => running,
+  require => Exec['enable-mod-rewrite']
 }
 
 # install mysql-server package
@@ -32,6 +47,10 @@ service { 'mysql':
 
 # install php5 package
 package { 'php5':
+  require => Exec['apt-update'],        # require 'apt-update' before installing
+  ensure => installed,
+}
+package { 'php5-mysql':
   require => Exec['apt-update'],        # require 'apt-update' before installing
   ensure => installed,
 }
@@ -73,4 +92,25 @@ exec { 'composer-update':
   cwd     => '/var/www/pixelbonus',
   environment => [ "COMPOSER_HOME=/usr/local/bin" ],
   require => [ Class['composer'] ],
+}
+
+exec { 'schema-update':
+  command => "php app/console doctrine:schema:update --force",
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+  cwd     => '/var/www/pixelbonus',
+  require => [ Exec['composer-update'] ],
+}
+
+exec { 'setup-document-root':
+  command => "rm -fR /var/www/html; ln -s /var/www/pixelbonus/web /var/www/html",
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+  cwd     => '/var/www/pixelbonus',
+  require => [ Exec['composer-update'] ],
+}
+
+exec { 'fix-permissions':
+  command => "chown -R www-data:www-data /var/www/pixelbonus; chown -R www-data:www-data /var/www/html",
+  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
+  cwd     => '/var/www/pixelbonus',
+  require => [ Exec['setup-document-root'] ],
 }
