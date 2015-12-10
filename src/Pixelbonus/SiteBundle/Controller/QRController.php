@@ -26,7 +26,7 @@ class QRController extends Controller {
         $user = $this->container->get('security.context')->getToken()->getUser();
         if($course->getUser() != $user) { throw new \Exception('User not authorized to access this course'); }
         if($course->getQrSets()->count() > 0) {
-            return $this->render('PixelbonusSiteBundle:QR:qr_sets.html.twig', array(
+            return $this->render('PixelbonusSiteBundle:QR:course.html.twig', array(
                 'course' => $course,
                 'qrsets' => $course->getQrSets(),
             ));
@@ -39,6 +39,18 @@ class QRController extends Controller {
                 'form' => $form->createView(),
             ));
         }
+    }
+
+    /**
+     * @Route("/course/{course}/grades", name="course_grades")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function courseGrades(Course $course) {
+        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrset qr WHERE qr.course = :course')->setParameter('course', $course)->getResult();
+        return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
+            'course' => $course,
+            'redemptions' => $redemptions,
+        ));
     }
 
     /**
@@ -94,6 +106,16 @@ class QRController extends Controller {
             'course' => $course,
             'form' => $form->createView(),
             'existingTags' => $existingTags,
+        ));
+    }
+
+    /**
+     * @Route("/qrset/{qrset}", name="qrset")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function qrset(QrSet $qrset) {
+        return $this->render('PixelbonusSiteBundle:QR:qr_set.html.twig', array(
+            'qrset' => $qrset,
         ));
     }
 
@@ -159,13 +181,13 @@ class QRController extends Controller {
     }
 
     /**
-     * @Route("/redeem/{hash}", name="redeem")
+     * @Route("/qrset/{qrset}/delete", name="delete_qrset")
      * @Secure(roles="ROLE_USER")
      */
-    public function redeem($hash) {
-        $hash = Base32::decode(strtoupper($hash).'=');
-        $mcrypt = new McryptCipher($this->container->getParameter("secret"));
-        $input = $mcrypt->decrypt($hash);
-        var_dump($input); die();
+    public function deleteQr(QrSet $qrset) {
+        $course = $qrset->getCourse()->getId();
+        $this->container->get('doctrine')->getManager()->remove($qrset);
+        $this->container->get('doctrine')->getManager()->flush($qrset);
+        return new RedirectResponse($this->container->get('router')->generate('course', array('course' => $course)));
     }
 }

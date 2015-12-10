@@ -1,0 +1,34 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{'qr.grades'|trans}}</h2>
+                <h3>{{course.name}}</h3>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>{{'redemption.participantNumber'|trans}}</th>
+                        <th>{{'redemption.redemptionCount'|trans}}</th>
+                        <th>{{'redemption.grade'|trans}}</th>
+                    </tr>
+                    {% for redemption in redemptions %}
+                        <tr>
+                            <td>{{redemption.participantNumber}}</td>
+                            <td>{{redemption.rcount}}</td>
+                            <td>X</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <p><a class="btn" href="{{path('course', {'course': course.id})}}">{{ 'redemption.back'|trans }}</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

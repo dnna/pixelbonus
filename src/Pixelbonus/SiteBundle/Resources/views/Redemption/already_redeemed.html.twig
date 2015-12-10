@@ -1,0 +1,14 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="span12 well text-center">
+            <p>{{ 'redemption.already_redeemed'|trans }}</p>
+            <p><a class="btn" href="{{path('redeem')}}">{{ 'redemption.back'|trans }}</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

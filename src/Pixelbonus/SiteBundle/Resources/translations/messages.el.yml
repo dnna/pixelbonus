@@ -23,11 +23,29 @@ courses:
     qr_set_hint: Για να τυπώσετε QR codes, αρχικά πρέπει να δημιουργήσετε ένα QR set. Το QR set μπορεί προαιρετικά να περιέχει tags, αν επιθημείτε να ομαδοποιήσετε τα QR codes βάσει συγκεκριμένων ιδιοτήτων (πχ. αριθμός διάλεξης, θεματική ενότητα, ακαδημαικό έτος κλπ.)
 
 qr:
+    qrsets: QR Sets
+    grades: Προβολή βαθμολογιών
     new: Νέο QR set
     create: Δημιουργία νέου
     createdAt: Δημιουργήθηκε
+    redemptions: Εξαργυρώσεις κωδικών
+    view: Προβολή
+    print: Εκτύπωση
+    delete: Διαγραφή
     form:
         tags: Tags
         quantity: Ποσότητα
         print: Εκτύπωση
         download: Αποθήκευση αρχείου
+
+redemption:
+    header: Εξαργύρωση κωδικού
+    hash: Κωδικός
+    participantNumber: Αριθμός συμμετέχοντα
+    redemptionCount: Αριθμός εξαργυρώσεων
+    grade: Βαθμός
+    submit: Υποβολή
+    invalid: Η εξαργύρωση απέτυχε. Παρακαλώ ελέγξτε τον κωδικό.
+    already_redeemed: Αυτός ο κωδικός έχει ήδη εξαργυρωθεί.
+    success: Επιτυχής εξαργύρωση!
+    back: Επιστροφή

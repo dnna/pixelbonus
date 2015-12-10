@@ -37,11 +37,17 @@ class QrSet {
      *      )
      */
     protected $tags;
+     /**
+     * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Redemption", mappedBy="qrset")
+     * @ORM\OrderBy({"participantNumber" = "ASC"})
+     */
+    protected $redemptions;
 
     protected $quantity; // Non-persistent
 
     public function __construct() {
         $this->tags = new ArrayCollection();
+        $this->redemptions = new ArrayCollection();
     }
 
     function getId() {
@@ -86,6 +92,14 @@ class QrSet {
             $string[] = $curTag->getName();
         }
         return $string;
+    }
+
+    function getRedemptions() {
+        return $this->redemptions;
+    }
+
+    function setRedemptions($redemptions) {
+        $this->redemptions = $redemptions;
     }
 
     function getQuantity() {
