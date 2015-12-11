@@ -95,7 +95,7 @@ header .container > hr, hr.star-primary {
 /* End header */
 
 /* Footer */
-footer {
+/*footer {
     position: absolute;
     bottom: 0px;
     width: 100%;
@@ -104,7 +104,7 @@ footer {
 footer .footer-below {
     color: #000;
     background-color: #fff;
-}
+}*/
 /* End footer */
 
 /* Home page */

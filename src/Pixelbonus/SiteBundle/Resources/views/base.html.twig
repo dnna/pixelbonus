@@ -55,15 +55,14 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li class="page-scroll">
-                        <div class="border-r" style="padding-right: 10px; margin-right: 10px;">{{app.request.locale|upper}}</div>
-                    </li>
-                    <li class="page-scroll">
-                        <select onchange="window.location = this.value;">
-                            <option>{{'header.choose_language'|trans}}</option>
-                            <option value="{{path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'en'}))}}">English</option>
-                            <option value="{{path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'el'}))}}">Ελληνικά</option>
-                        </select>
+                    <li class="page-scroll dropdown">
+                        {#<div class="border-r" style="padding-right: 10px; margin-right: 10px;"></div>#}
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{app.request.locale|upper}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'en'}))}}">English</option>
+</a></li>
+                            <li><a href="{{path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'el'}))}}">Ελληνικά</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
