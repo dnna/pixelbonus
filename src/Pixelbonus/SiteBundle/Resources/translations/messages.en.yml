@@ -1,5 +1,7 @@
 header:
     choose_language: Choose language
+    login: Login
+    register: Register
     logout: Logout
     my_courses: My activities
 
@@ -23,11 +25,29 @@ courses:
     qr_set_hint: To print QR codes, you must first create a QR set. The QR set can optionally contain tags if you wish to group codes by certain attributes (e.g. lecture number, subject names, academic year etc.)
 
 qr:
+    qrsets: QR Sets
+    grades: View grades
     new: New QR set
     create: Create new
     createdAt: Created At
+    redemptions: Redemptions
+    view: Details
+    print: Print
+    delete: Delete
     form:
         tags: Tags
         quantity: Quantity
         print: Print
         download: Download
+
+redemption:
+    header: Redeem code
+    hash: Code
+    participantNumber: Student identifier
+    redemptionCount: Redemptions count
+    grade: Grade
+    submit: Submit
+    invalid: Redemption failed. Please re-check the code.
+    already_redeemed: This code has already been redeemed.
+    success: Success!
+    back: Return

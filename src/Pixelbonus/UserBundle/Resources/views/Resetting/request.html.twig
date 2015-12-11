@@ -17,7 +17,7 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
                     {% if invalid_username is defined %}
-                        <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+                        <div class="alert alert-danger alert-error">{{ 'resetting.request.invalid_username'|trans({'% username%': invalid_username}) }}</div>
                     {% endif %}
                     <div class="row control-group">
                         <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -36,6 +36,10 @@
                     <hr />
                     <div>
                         <a href="{{path('fos_user_security_login')}}">{{'layout.login'|trans}}</a>
+                    </div>
+                    <hr />
+                    <div>
+                        <a href="{{path('fos_user_registration_register')}}">{{'layout.register'|trans}}</a>
                     </div>
                 </form>
             </div>

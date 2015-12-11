@@ -9,3 +9,4 @@ form:
 resetting:
     request:
         username: Username or email
+        submit: Reset password

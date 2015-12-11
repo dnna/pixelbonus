@@ -1,5 +1,7 @@
 header:
     choose_language: Επιλέξτε γλώσσα
+    login: Σύνδεση
+    register: Εγγραφή
     logout: Αποσύνδεση
     my_courses: Οι δραστηριότητες μου
 

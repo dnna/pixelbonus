@@ -9,3 +9,4 @@ form:
 resetting:
     request:
         username: Όνομα χρήστη ή e-mail
+        submit: Επαναφορά κωδικού πρόσβασης

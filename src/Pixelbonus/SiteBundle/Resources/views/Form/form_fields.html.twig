@@ -10,3 +10,12 @@
     </div>
 </div>
 {% endblock %}
+
+{% block widget_attributes %}
+{% spaceless %}
+{% if attr.placeholder is not defined or attr.placeholder == null %}
+    {% set attr = attr|merge({'placeholder': label}) %}
+{% endif %}
+{{ parent() }}
+{% endspaceless %}
+{% endblock %}
