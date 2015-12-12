@@ -18,5 +18,7 @@ $(function() {
             },
             tokenSeparators: [',', ' ']
         })
+
+        $('#new-qr-set-form').hide();
     });
 });

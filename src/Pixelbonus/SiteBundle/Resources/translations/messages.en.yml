@@ -34,6 +34,9 @@ qr:
     view: Details
     print: Print
     delete: Delete
+    print_text: Printing will start soon. If the print dialog does not open in the next few seconds click <a href="%link%">here</a> to download as PDF.
+    download_text: Download will start soon. If the download dialog does not open in the next few seconds click <a id="qr-download-link" href="%link%">here</a>.
+    return_course: Return to course
     form:
         tags: Tags
         quantity: Quantity

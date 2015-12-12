@@ -58,12 +58,12 @@ section {
 
 .navbar-user {
     min-height: 30px;
-    z-index: 0;
+    z-index: 10;
 }
 
 @media (min-width: 768px) {
     .navbar-user.navbar-fixed-top.navbar-shrink {
-        top: 82px;
+        top: 80px;
     }
 }
 
