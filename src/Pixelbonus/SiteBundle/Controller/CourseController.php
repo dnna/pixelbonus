@@ -60,4 +60,15 @@ class CourseController extends Controller {
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * @Route("/qrset/{course}/delete", name="delete_course")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function deleteCourse(Course $course) {
+        $course = $course->getCourse()->getId();
+        $this->container->get('doctrine')->getManager()->remove($course);
+        $this->container->get('doctrine')->getManager()->flush($course);
+        return new RedirectResponse($this->container->get('router')->generate('courses'));
+    }
 }

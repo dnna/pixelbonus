@@ -58,6 +58,7 @@ section {
 
 .navbar-user {
     min-height: 30px;
+    z-index: 0;
 }
 
 @media (min-width: 768px) {
