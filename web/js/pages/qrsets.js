@@ -9,6 +9,7 @@ $(function() {
 
         $("#qrset_tagsFromString").select2({
             tags: true,
+            selectOnBlur: true,
             data: existingTags,
             placeholder: "Tags (e.g. 2016, Seminar 2)",
             "language": {
@@ -17,7 +18,7 @@ $(function() {
                 }
             },
             tokenSeparators: [',', ' ']
-        })
+        });
 
         $('#new-qr-set-form').hide();
     });
