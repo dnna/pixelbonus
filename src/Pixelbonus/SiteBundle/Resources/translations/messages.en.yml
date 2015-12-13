@@ -13,7 +13,7 @@ home:
 courses:
     no_courses: You haven't created any activities yet
     create_first: Create your first activity
-    create: Create new
+    create: Create new activity
     new: New activity
     form:
         name: Enter the name of your course
@@ -26,9 +26,9 @@ courses:
 
 qr:
     qrsets: QR Sets
-    grades: View grades
+    grades: Grades
     new: New QR set
-    create: Create new
+    create: Create new QR set
     createdAt: Created At
     redemptions: Redemptions
     view: Details
