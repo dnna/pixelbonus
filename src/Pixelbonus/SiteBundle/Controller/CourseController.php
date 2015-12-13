@@ -62,7 +62,7 @@ class CourseController extends Controller {
     }
 
     /**
-     * @Route("/qrset/{course}/delete", name="delete_course")
+     * @Route("/course/{course}/delete", name="delete_course")
      * @Secure(roles="ROLE_USER")
      */
     public function deleteCourse(Course $course) {
