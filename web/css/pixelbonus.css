@@ -8,7 +8,7 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: none;
 }
 
-section h2 {
+section h2, header h2 {
     margin-top: 40px;
     font-size: 32px;
     text-transform: none;
@@ -78,10 +78,11 @@ section {
 }
 
 header .container {
-    padding-top: 100px;
+    padding-top: 113px;
 }
 
 header .container > hr, hr.star-primary {
+    margin-top: 20px;
     margin-bottom: 50px;
 }
 
@@ -110,7 +111,7 @@ footer .footer-below {
 
 /* Home page */
 .border-r {
-    border-right: 2px solid #fff;
+    border-right: 2px solid #2c3e50;
 }
 
 header .intro-text .name {
@@ -118,6 +119,13 @@ header .intro-text .name {
     margin-left: auto;
     margin-right: auto;
     text-transform: none;
+    background-color: #18bc9c;
+    border-color: #18bc9c;
+}
+
+header .intro-text .name:hover {
+    background-color: #95a5a6;
+    border-color: #95a5a6;
 }
 
 header .intro-text {
@@ -126,5 +134,10 @@ header .intro-text {
 
 header .intro-text .skills {
     font-size: 1.25em;
+}
+
+header {
+    background-color: #fff;
+    color: #2c3e50;
 }
 /* End home page */
