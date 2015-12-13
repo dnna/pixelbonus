@@ -42,7 +42,7 @@ class QRController extends Controller {
     }
 
     /**
-     * @Route("/course/{course}/grades", name="course_grades")
+     * @Route("/course/{course}/qrset/grades", name="course_grades")
      * @Secure(roles="ROLE_USER")
      */
     public function courseGrades(Course $course) {
