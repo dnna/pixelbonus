@@ -20,6 +20,6 @@ $(function() {
             tokenSeparators: [',', ' ']
         });
 
-        $('#new-qr-set-form').hide();
+        $('#new-qr-set-form.hide').hide();
     });
 });

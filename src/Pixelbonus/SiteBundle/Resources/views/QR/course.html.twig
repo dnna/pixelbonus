@@ -25,7 +25,7 @@
                             <td style="width: 23%;">{{qrset.createdAt|date('d-m-Y')}}</td>
                             <td style="width: 23%;">{{qrset.tagsFromString|join(', ')}}</td>
                             <td style="width: 23%;">{{qrset.redemptions.count}}{% if qrset.redemptions.count > 0 %}| <a href="{{path('qrset', {'qrset': qrset.id})}}">{{'qr.view'|trans}}</a>{% endif %}</td>
-                            <td style="width: 21%;"><form action="{{path('print_qr', {'qrset': qrset.id})}}"><input type="number" name="quantity" style="width: 50px; margin-right: 5px; padding-top: 3px; padding-bottom: 6px;" value="{{course.enrolledParticipants}}" /><input type="submit" class="btn btn-default btn-sm" value="{{'qr.print'|trans}}" /></form></td>
+                            <td style="width: 21%;"><form action="{{path('print_qr', {'qrset': qrset.id})}}"><input type="number" name="quantity" style="width: 50px; margin-right: 5px; padding-top: 3px; padding-bottom: 6px;" value="{{course.enrolledParticipants}}" required /><input type="submit" class="btn btn-default btn-sm" value="{{'qr.print'|trans}}" /></form></td>
                             <td style="width: 10%;"><a href="{{path('delete_qrset', {'qrset': qrset.id})}}" onclick="return confirm('Are you sure you want to delete this?');">{{'qr.delete'|trans}}</a></td>
                         </tr>
                     {% endfor %}
