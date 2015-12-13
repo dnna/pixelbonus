@@ -30,6 +30,7 @@ qr:
     new: New QR set
     create: Create new QR set
     createdAt: Created At
+    redeemedAt: Redeemed At
     redemptions: Redemptions
     view: Details
     print: Print

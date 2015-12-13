@@ -30,6 +30,7 @@ qr:
     new: Νέο QR set
     create: Δημιουργία νέου QR Set
     createdAt: Δημιουργήθηκε
+    redeemedAt: Εξαργυρώθηκε
     redemptions: Εξαργυρώσεις κωδικών
     view: Προβολή
     print: Εκτύπωση
