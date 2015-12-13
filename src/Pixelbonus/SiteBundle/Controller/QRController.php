@@ -46,7 +46,7 @@ class QRController extends Controller {
      * @Secure(roles="ROLE_USER")
      */
     public function courseGrades(Course $course) {
-        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrset qr WHERE qr.course = :course')->setParameter('course', $course)->getResult();
+        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrset qr WHERE qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course)->getResult();
         return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
             'course' => $course,
             'redemptions' => $redemptions,
