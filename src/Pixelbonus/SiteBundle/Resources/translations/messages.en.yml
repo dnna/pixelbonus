@@ -16,7 +16,7 @@ courses:
     create: Create new activity
     new: New activity
     form:
-        name: Enter the name of your course
+        name: Enter the name of your activity
         enrolledParticipants: "Number of enrolled participants (optional)"
         create: Create
         create_another: Create and add another
@@ -37,7 +37,7 @@ qr:
     delete: Delete
     print_text: Printing will start soon. If the print dialog does not open in the next few seconds click <a href="%link%">here</a> to download as PDF.
     download_text: Download will start soon. If the download dialog does not open in the next few seconds click <a id="qr-download-link" href="%link%">here</a>.
-    return_course: Return to course
+    return_course: Return to the activity
     form:
         tags: Tags
         quantity: Quantity
