@@ -18,7 +18,6 @@ courses:
     form:
         name: Enter the name of your activity
         create: Create
-        create_another: Create and add another
     courses: Activities
     create_qr_set: Create QR set
     qr_set_hint: To print QR codes, you must first create a QR set. The QR set can optionally contain tags if you wish to group codes by certain attributes (e.g. lecture number, subject names, academic year etc.)

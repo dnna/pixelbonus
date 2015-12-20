@@ -49,11 +49,7 @@ class CourseController extends Controller {
                 $this->container->get('doctrine')->getManager()->persist($course);
                 $this->container->get('doctrine')->getManager()->flush($course);
 
-                if($this->getRequest()->request->has('_submit_another')) {
-                    return new RedirectResponse($this->container->get('router')->generate('new_course'));
-                } else {
-                    return new RedirectResponse($this->container->get('router')->generate('courses'));
-                }
+                return new RedirectResponse($this->container->get('router')->generate('courses'));
             }
         }
         return $this->render('PixelbonusSiteBundle:Courses:new.html.twig', array(
