@@ -62,7 +62,7 @@ class QRController extends Controller {
         if($course->getUser() != $user) { throw new \Exception('User not authorized to access this course'); }
         $qrset = new QrSet();
         $qrset->setCourse($course);
-        $qrset->setQuantity($course->getEnrolledParticipants());
+        $qrset->setQuantity(QrSet::DEFAULT_QUANTITY);
         $form = $this->createForm(new QrSetType(), $qrset,  array());
         if ('POST' == $this->getRequest()->getMethod()) {
             // parameter handling

@@ -44,6 +44,7 @@ class QrSet {
     protected $redemptions;
 
     protected $quantity; // Non-persistent
+    const DEFAULT_QUANTITY = 10;
 
     public function __construct() {
         $this->tags = new ArrayCollection();
