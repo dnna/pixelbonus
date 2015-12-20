@@ -29,10 +29,6 @@ class Course {
      * @ORM\Column(type="string")
      */
     protected $name;
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */    
-    protected $enrolledParticipants;
      /**
      * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\QrSet", mappedBy="course")
      * @ORM\OrderBy({"createdAt" = "DESC"})
@@ -65,14 +61,6 @@ class Course {
 
     function setName($name) {
         $this->name = $name;
-    }
-
-    function getEnrolledParticipants() {
-        return $this->enrolledParticipants;
-    }
-
-    function setEnrolledParticipants($enrolledParticipants) {
-        $this->enrolledParticipants = $enrolledParticipants;
     }
 
     function getQrSets() {

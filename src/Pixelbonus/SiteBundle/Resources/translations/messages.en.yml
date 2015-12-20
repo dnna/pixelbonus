@@ -17,7 +17,6 @@ courses:
     new: New activity
     form:
         name: Enter the name of your activity
-        enrolledParticipants: "Number of enrolled participants (optional)"
         create: Create
         create_another: Create and add another
     courses: Activities
