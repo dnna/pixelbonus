@@ -21,7 +21,7 @@
                     {% for redemption in qrset.redemptions %}
                         <tr>
                             <td>{{redemption.participantNumber}}</td>
-                            <td>{{redemption.createdAt|date('d-m-Y')}}</td>
+                            <td>{{redemption.createdAt|date('d-m-Y H:i:s')}}</td>
                         </tr>
                     {% endfor %}
                 </table>
