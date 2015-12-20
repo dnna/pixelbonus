@@ -8,5 +8,7 @@ To use it run the following commands while inside the "puppet" directory of the 
  - puppet module install puppetlabs/mysql
  - puppet module install puppetlabs/vcsrepo
  - puppet module install willdurand-composer
+ - git clone [pixelbonus URL]
+ - cd pixelbonus/puppet
  - puppet apply pixelbonus.pp
  - Change the secret key at /var/www/pixelbonus/app/config/parameters.yml
