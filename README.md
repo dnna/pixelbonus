@@ -12,3 +12,6 @@ To use it run the following commands while inside the "puppet" directory of the 
  - cd pixelbonus/puppet
  - puppet apply pixelbonus.pp
  - Change the secret key at /var/www/pixelbonus/app/config/parameters.yml
+
+## Try it out
+To try it out without installing visit http://www.pixelbonus.com
