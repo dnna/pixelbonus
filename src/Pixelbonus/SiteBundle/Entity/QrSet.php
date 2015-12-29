@@ -26,10 +26,6 @@ class QrSet {
      */
     protected $course;
     /**
-     * @ORM\Column(type="integer")
-     */
-    protected $firstFree = 0;
-    /**
      * @ORM\ManyToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Tag", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinTable(name="qrset_tags",
      *      joinColumns={@ORM\JoinColumn(name="qrset_id", referencedColumnName="id", onDelete="CASCADE")},
@@ -38,17 +34,16 @@ class QrSet {
      */
     protected $tags;
      /**
-     * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Redemption", mappedBy="qrset")
-     * @ORM\OrderBy({"participantNumber" = "ASC"})
+     * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\QrCode", mappedBy="qrset")
      */
-    protected $redemptions;
+    protected $qrcodes;
 
     protected $quantity; // Non-persistent
     const DEFAULT_QUANTITY = 10;
 
     public function __construct() {
         $this->tags = new ArrayCollection();
-        $this->redemptions = new ArrayCollection();
+        $this->qrcodes = new ArrayCollection();
     }
 
     function getId() {
@@ -63,16 +58,8 @@ class QrSet {
         return $this->course;
     }
 
-    function getFirstFree() {
-        return $this->firstFree;
-    }
-
     function setCourse($course) {
         $this->course = $course;
-    }
-
-    function setFirstFree($firstFree) {
-        $this->firstFree = $firstFree;
     }
 
     function getTags() {
@@ -95,20 +82,30 @@ class QrSet {
         return $string;
     }
 
-    function getRedemptions() {
-        return $this->redemptions;
-    }
-
-    function setRedemptions($redemptions) {
-        $this->redemptions = $redemptions;
-    }
-
     function getQuantity() {
         return $this->quantity;
     }
 
     function setQuantity($quantity) {
         $this->quantity = $quantity;
+    }
+
+    function getQrcodes() {
+        return $this->qrcodes;
+    }
+
+    function setQrcodes($qrcodes) {
+        $this->qrcodes = $qrcodes;
+    }
+
+    function getRedemptions() {
+        $redemptions = new ArrayCollection();
+        foreach($this->qrcodes as $curQrCode) {
+            foreach($curQrCode->getRedemptions() as $curRedemption) {
+                $redemptions->add($curRedemption);
+            }
+        }
+        return $redemptions;
     }
 }
 
