@@ -21,14 +21,10 @@ class Redemption {
      */
     protected $id;
     /**
-     * @ORM\ManyToOne(targetEntity="Pixelbonus\SiteBundle\Entity\QrSet", inversedBy="redemptions", fetch="EAGER")
-     * @ORM\JoinColumn(name="qrset_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Pixelbonus\SiteBundle\Entity\QrCode", inversedBy="redemptions", fetch="EAGER")
+     * @ORM\JoinColumn(name="qrcode_code", referencedColumnName="code", onDelete="CASCADE")
      */
-    protected $qrset;
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $qrsetSequenceNum;
+    protected $qrcode;
     /**
      * @ORM\Column(type="string", nullable=false)
      */
@@ -38,28 +34,20 @@ class Redemption {
         return $this->id;
     }
 
-    function getQrset() {
-        return $this->qrset;
-    }
-
-    function getQrsetSequenceNum() {
-        return $this->qrsetSequenceNum;
-    }
-
-    function getParticipantNumber() {
-        return $this->participantNumber;
-    }
-
     function setId($id) {
         $this->id = $id;
     }
 
-    function setQrset($qrset) {
-        $this->qrset = $qrset;
+    function getQrcode() {
+        return $this->qrcode;
     }
 
-    function setQrsetSequenceNum($qrsetSequenceNum) {
-        $this->qrsetSequenceNum = $qrsetSequenceNum;
+    function setQrcode($qrcode) {
+        $this->qrcode = $qrcode;
+    }
+
+    function getParticipantNumber() {
+        return $this->participantNumber;
     }
 
     function setParticipantNumber($participantNumber) {

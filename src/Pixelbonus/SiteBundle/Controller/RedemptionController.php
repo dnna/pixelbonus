@@ -26,27 +26,19 @@ class RedemptionController extends Controller {
     public function redeemSubmit() {
         if($this->getRequest()->get('participantNumber') == null) { echo 'Participant number not provided'; die(); }
         if($this->getRequest()->get('hash') == null) { echo 'Hash not provided'; die(); }
-        $hash = Base32::decode(strtoupper(str_replace(' ', '', $this->getRequest()->get('hash'))).'=');
-        $mcrypt = new McryptCipher($this->container->getParameter("secret"));
-        $input = $mcrypt->decrypt($hash);
-        if(strpos($input, '_') === false) {
-            return $this->render('PixelbonusSiteBundle:Redemption:invalid_redemption.html.twig', array());
-        }
-        $inputParts = explode('_', $input);
-        $qrset = $this->container->get('doctrine')->getManager()->getRepository('Pixelbonus\SiteBundle\Entity\QrSet')->find($inputParts[0]);
-        if(!isset($qrset)) {
+        $hash = strtolower(str_replace(' ', '', $this->getRequest()->get('hash')));
+        $qrcode = $this->container->get('doctrine')->getManager()->getRepository('Pixelbonus\SiteBundle\Entity\QrCode')->find($hash);
+        if(!isset($qrcode)) {
             return $this->render('PixelbonusSiteBundle:Redemption:invalid_redemption.html.twig', array());
         }
         $redemption = $this->container->get('doctrine')->getManager()->getRepository('Pixelbonus\SiteBundle\Entity\Redemption')->findOneBy(array(
-            'qrset' => $qrset,
-            'qrsetSequenceNum' => $inputParts[1],
+            'qrcode' => $qrcode,
         ));
         if(isset($redemption)) {
             return $this->render('PixelbonusSiteBundle:Redemption:already_redeemed.html.twig', array());
         }
         $redemption = new Redemption();
-        $redemption->setQrset($qrset);
-        $redemption->setQrsetSequenceNum($inputParts[1]);
+        $redemption->setQrcode($qrcode);
         $redemption->setParticipantNumber($this->getRequest()->get('participantNumber'));
         $this->container->get('doctrine')->getManager()->persist($redemption);
         $this->container->get('doctrine')->getManager()->flush($redemption);

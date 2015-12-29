@@ -17,7 +17,7 @@ To use it run the following commands while inside the "puppet" directory of the 
 After installing pixelbonus, a few configuration parameters need to be set based on the particular setup. These include database and mailer configuration and a secret key to be used when encrypting the QR codes.
 
 The configuration settings are located in **app/config/parameters.yml**. The file is in [YAML](https://en.wikipedia.org/wiki/YAML) format and contains the following options:
- - database_driver: One of the PHP PDO [database drivers](http://php.net/manual/en/pdo.drivers.php)
+ - database_driver: One of the PHP PDO [database drivers](http://php.net/manual/en/pdo.drivers.php).
  - database_host: The database host. Usually localhost.
  - database_port: The database port. Defaults to 3306.
  - database_name: The database name. Defaults to pixelbonus.

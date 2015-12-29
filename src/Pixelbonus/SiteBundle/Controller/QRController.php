@@ -7,13 +7,11 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use Base32\Base32;
-use Pixelbonus\SiteBundle\Crypto\McryptCipher;
-
 use Pixelbonus\SiteBundle\Entity\Course;
 use Pixelbonus\SiteBundle\Form\Type\CourseType;
 
 use Pixelbonus\SiteBundle\Entity\QrSet;
+use Pixelbonus\SiteBundle\Entity\QrCode;
 use Pixelbonus\SiteBundle\Entity\Tag;
 use Pixelbonus\SiteBundle\Form\Type\QrSetType;
 
@@ -46,7 +44,7 @@ class QRController extends Controller {
      * @Secure(roles="ROLE_USER")
      */
     public function courseGrades(Course $course) {
-        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrset qr WHERE qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course)->getResult();
+        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr WHERE qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course)->getResult();
         return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
             'course' => $course,
             'redemptions' => $redemptions,
@@ -150,23 +148,28 @@ class QRController extends Controller {
      */
     public function generateQr(QrSet $qrset) {
         if($this->getRequest()->get('quantity') == null) { echo 'Quantity is required'; die(); }
-        $end = $qrset->getFirstFree() + (int)$this->getRequest()->get('quantity');
         $qrImages = array();
-        $mcrypt = new McryptCipher($this->container->getParameter("secret"));
-        for($i = $qrset->getFirstFree(); $i < $end; $i++) {
+        $toFlush = array($qrset);
+        for($i = $qrset->getQrcodes()->count(); $i < $qrset->getQrcodes()->count()+(int)$this->getRequest()->get('quantity'); $i++) {
+            // Create the QR Entity
+            $qrCode = new QrCode();
+            $qrCode->setQrset($qrset);
+            $hash = hash_hmac('sha1', $qrset->getId().'_'.$i, $this->container->getParameter("secret"));
+            $qrCode->setCode($hash);
+            $this->container->get('doctrine')->getManager()->persist($qrCode);
+            $toFlush[] = $qrCode;
+
+            // Generate QR image based on the created entity
             $qrImage = array();
             $fileName = tempnam($this->container->getParameter("kernel.cache_dir"), 'qrimg');
-            $hash = $mcrypt->encrypt($qrset->getId().'_'.$i);
-            $hash = strtolower(substr(Base32::encode($hash), 0, strlen(Base32::encode($hash))-1));
-            $link = $this->container->get('router')->generate('redeem', array('hash' => $hash), true);
+            $link = $this->container->get('router')->generate('redeem', array('hash' => $qrCode->getCode()), true);
             \QRcode::svg($link, $fileName);
-            $qrImage['link'] = $hash;
+            $qrImage['link'] = $qrCode->getCode();
             $qrImage['svg'] = file_get_contents($fileName);
             $qrImages[] = $qrImage;
         }
-        $qrset->setFirstFree($end);
         $this->container->get('doctrine')->getManager()->persist($qrset);
-        $this->container->get('doctrine')->getManager()->flush($qrset);
+        $this->container->get('doctrine')->getManager()->flush($toFlush);
         $html = $this->container->get('templating')->render('PixelbonusSiteBundle:QR:qr_template.html.twig', array(
             'qrImages' => $qrImages,
         ));
