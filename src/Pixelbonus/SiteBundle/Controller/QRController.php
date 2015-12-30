@@ -87,11 +87,7 @@ class QRController extends Controller {
                 $this->container->get('doctrine')->getManager()->persist($qrset);
                 $this->container->get('doctrine')->getManager()->flush($qrset);
 
-                if($this->getRequest()->request->has('_print')) {
-                    return new RedirectResponse($this->container->get('router')->generate('print_qr', array('qrset' => $qrset->getId(), 'quantity' => $qrset->getQuantity())));
-                } else {
-                    return new RedirectResponse($this->container->get('router')->generate('download_qr', array('qrset' => $qrset->getId(), 'quantity' => $qrset->getQuantity())));
-                }
+                return new RedirectResponse($this->container->get('router')->generate('download_qr', array('qrset' => $qrset->getId(), 'quantity' => $qrset->getQuantity())));
             }
         }
         // Get existing tags
@@ -115,18 +111,6 @@ class QRController extends Controller {
     public function qrset(QrSet $qrset) {
         return $this->render('PixelbonusSiteBundle:QR:qr_set.html.twig', array(
             'qrset' => $qrset,
-        ));
-    }
-
-    /**
-     * @Route("/qrset/{qrset}/print", name="print_qr")
-     * @Secure(roles="ROLE_USER")
-     */
-    public function printQr(QrSet $qrset) {
-        if($this->getRequest()->get('quantity') == null) { echo 'Quantity is required'; die(); }
-        return $this->render('PixelbonusSiteBundle:QR:print.html.twig', array(
-            'qrset' => $qrset,
-            'quantity' => $this->getRequest()->get('quantity'),
         ));
     }
 
