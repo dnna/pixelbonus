@@ -141,3 +141,9 @@ header {
     color: #2c3e50;
 }
 /* End home page */
+
+/* Grades page */
+.grades-table.table a {
+    text-decoration: none;
+}
+/* End grades page */
