@@ -10,7 +10,7 @@ parameters:
     mailer_encryption: tls
     mailer_port: 587
     mailer_auth_mode: login
-    mailer_user: dnna@datapack.gr
+    mailer_user: info@pixelbonus.com
     mailer_password: abc
     locale: el
     secret: 3a81c8d57cb10f63fb93a9bd17e5684f4g

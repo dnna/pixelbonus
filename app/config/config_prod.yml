@@ -25,7 +25,7 @@ monolog:
             handler: swift
         swift:
             type:       swift_mailer
-            from_email: dnna@dnna.gr
-            to_email:   dnna@dnna.gr
+            from_email: %mailer_user%
+            to_email:   %mailer_user%
             subject:    An Error Occurred!
             level:      debug
