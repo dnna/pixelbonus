@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 use Pixelbonus\SiteBundle\Entity\Course;
 use Pixelbonus\SiteBundle\Form\Type\CourseType;
@@ -59,21 +60,37 @@ class QRController extends Controller {
         }
         // Sort the grades by the selected field
         $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
-        if(!in_array($selectedSortField, array(
-            'participantNumber', 'rcount', 'grade',
-        ))) {
+        $headerFields = array('participantNumber', 'rcount', 'grade',);
+        if(!in_array($selectedSortField, $headerFields)) {
             return new Response('Invalid sort attribute selected');
         }
         uasort($redemptions, function($a, $b) use($selectedSortField) {
             if($a[$selectedSortField] == $b[$selectedSortField]) { return 0; }
             if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
         });
-        return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
-            'course' => $course,
-            'redemptions' => $redemptions,
-            'selectedGradingModel' => $selectedGradingModel,
-            'selectedSortField' => $selectedSortField,
-        ));
+        // Export or render HTML
+        if($this->getRequest()->get('export') === 'true') {
+            $response = new StreamedResponse(function() use(&$redemptions, &$headerFields) {
+                $handle = fopen('php://output', 'r+');
+
+                fputcsv($handle, $headerFields);
+                foreach($redemptions as $curRedemption) {
+                    fputcsv($handle, $curRedemption);
+                }
+
+                fclose($handle);
+            });
+            $response->headers->set('Content-Type', 'application/force-download');
+            $response->headers->set('Content-Disposition','attachment; filename="grades-export.csv"');
+            return $response;
+        } else {
+            return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
+                'course' => $course,
+                'redemptions' => $redemptions,
+                'selectedGradingModel' => $selectedGradingModel,
+                'selectedSortField' => $selectedSortField,
+            ));
+        }
     }
 
     /**

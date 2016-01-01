@@ -33,6 +33,8 @@
                         </tr>
                     {% endfor %}
                 </table>
+                <a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'export': 'true'}))}}" id="new-qr-set" class="btn btn-default">{{'qr.grades_export'|trans}}</a>
+                <hr />
                 <p><a href="{{path('course', {'course': course.id})}}">{{ 'redemption.back'|trans }}</a></p>
             </div>
         </div>
