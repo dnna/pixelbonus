@@ -25,6 +25,8 @@ courses:
 qr:
     qrsets: QR Sets
     grades: Grades
+    grading_model: Grading Model
+    reduction: Reduction/Regression(?)
     new: New QR set
     create: Create new QR set
     createdAt: Created At
