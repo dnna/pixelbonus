@@ -27,6 +27,7 @@ qr:
     grades: Βαθμολογίες
     grading_model: Μοντέλο Βαθμολόγησης
     reduction: Reduction/Regression(?)
+    grades_export: Εξαγωγή Βαθμολογιών σε CSV
     new: Νέο QR set
     create: Δημιουργία νέου QR Set
     createdAt: Δημιουργήθηκε
