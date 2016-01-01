@@ -57,10 +57,22 @@ class QRController extends Controller {
         } else {
             return new Response('Invalid grading model selected');
         }
+        // Sort the grades by the selected field
+        $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
+        if(!in_array($selectedSortField, array(
+            'participantNumber', 'rcount', 'grade',
+        ))) {
+            return new Response('Invalid sort attribute selected');
+        }
+        uasort($redemptions, function($a, $b) use($selectedSortField) {
+            if($a[$selectedSortField] == $b[$selectedSortField]) { return 0; }
+            if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
+        });
         return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
             'course' => $course,
             'redemptions' => $redemptions,
             'selectedGradingModel' => $selectedGradingModel,
+            'selectedSortField' => $selectedSortField,
         ));
     }
 
