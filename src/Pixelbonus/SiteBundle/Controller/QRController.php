@@ -45,10 +45,20 @@ class QRController extends Controller {
      * @Secure(roles="ROLE_USER")
      */
     public function courseGrades(Course $course) {
-        $selectedGradingModel = $this->getRequest()->get('model', 'reduction');
-        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr WHERE qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course)->getResult();
-        $maxRedemptions = max(array_map(function($e) {return (int)$e['rcount'];}, $redemptions));
+        // Get all tags
+        $tags = $this->container->get('doctrine')->getManager()->createQuery('SELECT t FROM Pixelbonus\SiteBundle\Entity\Tag t JOIN t.qrsets qrs WHERE qrs.course = :course')->setParameter('course', $course)->getResult();
+        $selectedTag = $this->getRequest()->get('tag');
+        // Execute the query for getting the redemptions
+        $tagAppendQuery = $selectedTag != null ? ('JOIN qr.tags t WHERE t.id = :tagId AND') : 'WHERE';
+        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr '.$tagAppendQuery.' qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course);
+        if($selectedTag != null) { $redemptions = $redemptions->setParameter('tagId', $selectedTag)->getResult(); } else { $redemptions = $redemptions->getResult();  }
+        if(count($redemptions) > 0) {
+            $maxRedemptions = max(array_map(function($e) {return (int)$e['rcount'];}, $redemptions));
+        } else {
+            $maxRedemptions = 1;
+        }
         // Add the grade based on our model
+        $selectedGradingModel = $this->getRequest()->get('model', 'reduction');
         if($selectedGradingModel == 'reduction') {
             $redemptions = array_map(function($e) use ($maxRedemptions) {
                 $e['grade'] = min($e['rcount']/$maxRedemptions*10, 10);
@@ -86,7 +96,9 @@ class QRController extends Controller {
         } else {
             return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
                 'course' => $course,
+                'tags' => $tags,
                 'redemptions' => $redemptions,
+                'selectedTag' => $selectedTag,
                 'selectedGradingModel' => $selectedGradingModel,
                 'selectedSortField' => $selectedSortField,
             ));

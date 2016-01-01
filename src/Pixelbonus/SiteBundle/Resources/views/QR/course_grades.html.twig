@@ -11,9 +11,25 @@
         </div>
         <div class="row text-center">
             <div class="col-lg-2">
+            Tags:
+            </div>
+            <div class="col-lg-10 text-left">
+                <ul class="list-inline">
+                    {% for tag in tags %}
+                        <li>
+                            <a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'course': course.id, 'tag': tag.id}))}}" {% if selectedTag == tag.id %}style="text-decoration: underline;"{% endif %}>{{tag.name}}</a>
+                            {% if selectedTag == tag.id %}<li><a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'course': course.id, 'tag': null}))}}" style="color: red;" title="Remove tag">X</a>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <hr />
+        <div class="row text-center">
+            <div class="col-lg-2">
             {{'qr.grading_model'|trans}}:
             </div>
-            <div class="col-lg-2"><a href="{{path('course_grades', app.request.query.all()|merge({'course': course.id, 'model': 'reduction'}))}}" {% if selectedGradingModel == 'reduction' %}style="text-decoration: underline;"{% endif %}>{{'qr.reduction'|trans}}</a></div>
+            <div class="col-lg-2"><a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'course': course.id, 'model': 'reduction'}))}}" {% if selectedGradingModel == 'reduction' %}style="text-decoration: underline;"{% endif %}>{{'qr.reduction'|trans}}</a></div>
         </div>
         <hr />
         <div class="row text-center">
