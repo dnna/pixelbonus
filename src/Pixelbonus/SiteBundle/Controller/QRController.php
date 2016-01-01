@@ -44,10 +44,23 @@ class QRController extends Controller {
      * @Secure(roles="ROLE_USER")
      */
     public function courseGrades(Course $course) {
+        $selectedGradingModel = $this->getRequest()->get('model', 'reduction');
         $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr WHERE qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course)->getResult();
+        $maxRedemptions = max(array_map(function($e) {return (int)$e['rcount'];}, $redemptions));
+        // Add the grade based on our model
+        if($selectedGradingModel == 'reduction') {
+            $redemptions = array_map(function($e) use ($maxRedemptions) {
+                $e['grade'] = min($e['rcount']/$maxRedemptions*10, 10);
+                $e['grade'] = round($e['grade'], 2);
+                return $e;
+            }, $redemptions);
+        } else {
+            return new Response('Invalid grading model selected');
+        }
         return $this->render('PixelbonusSiteBundle:QR:course_grades.html.twig', array(
             'course' => $course,
             'redemptions' => $redemptions,
+            'selectedGradingModel' => $selectedGradingModel,
         ));
     }
 

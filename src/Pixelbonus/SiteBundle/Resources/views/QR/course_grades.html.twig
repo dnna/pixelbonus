@@ -10,6 +10,13 @@
             </div>
         </div>
         <div class="row text-center">
+            <div class="col-lg-2">
+            {{'qr.grading_model'|trans}}:
+            </div>
+            <div class="col-lg-2"><a href="{{path('course_grades', {'course': course.id, 'model': 'reduction'})}}" {% if selectedGradingModel == 'reduction' %}style="text-decoration: underline;"{% endif %}>{{'qr.reduction'|trans}}</a></div>
+        </div>
+        <hr />
+        <div class="row text-center">
             <div class="col-lg-12">
                 <h3 style="margin-top: 0px; margin-bottom: 25px;">{{course.name}}</h3>
                 <table class="table table-bordered">
@@ -22,7 +29,7 @@
                         <tr>
                             <td>{{redemption.participantNumber}}</td>
                             <td>{{redemption.rcount}}</td>
-                            <td>X</td>
+                            <td>{{redemption.grade}}</td>
                         </tr>
                     {% endfor %}
                 </table>

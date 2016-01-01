@@ -25,6 +25,8 @@ courses:
 qr:
     qrsets: QR Sets
     grades: Βαθμολογίες
+    grading_model: Μοντέλο Βαθμολόγησης
+    reduction: Reduction/Regression(?)
     new: Νέο QR set
     create: Δημιουργία νέου QR Set
     createdAt: Δημιουργήθηκε
