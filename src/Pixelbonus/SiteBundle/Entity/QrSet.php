@@ -26,7 +26,7 @@ class QrSet {
      */
     protected $course;
     /**
-     * @ORM\ManyToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Tag", cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Tag", cascade={"persist"}, fetch="EAGER", inversedBy="qrsets")
      * @ORM\JoinTable(name="qrset_tags",
      *      joinColumns={@ORM\JoinColumn(name="qrset_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}

@@ -1,6 +1,7 @@
 <?php
 namespace Pixelbonus\SiteBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -22,6 +23,14 @@ class Tag
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
+    /**
+     * @ORM\ManyToMany(targetEntity="Pixelbonus\SiteBundle\Entity\QrSet", mappedBy="tags", cascade={"persist"})
+     */
+    private $qrsets;
+
+    function __construct() {
+        $this->qrsets = new ArrayCollection();
+    }
 
     function getId() {
         return $this->id;
@@ -37,5 +46,13 @@ class Tag
 
     function setName($name) {
         $this->name = $name;
+    }
+
+    function getQrsets() {
+        return $this->qrsets;
+    }
+
+    function setQrsets($qrsets) {
+        $this->qrsets = $qrsets;
     }
 }
