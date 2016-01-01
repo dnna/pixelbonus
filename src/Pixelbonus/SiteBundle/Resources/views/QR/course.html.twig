@@ -14,7 +14,6 @@
                 <h3 style="margin-top: 0px; margin-bottom: 25px;">{{'qr.qrsets'|trans}}</h3>
                 <table class="table table-bordered">
                     <tr>
-                        <th>{{'qr.createdAt'|trans}}</th>
                         <th>Tags</th>
                         <th>{{'qr.redemptions'|trans}}</th>
                         <th>&nbsp;</th>
@@ -22,7 +21,6 @@
                     </tr>
                     {% for qrset in qrsets %}
                         <tr>
-                            <td style="width: 23%;">{{qrset.createdAt|date('d-m-Y H:i:s')}}</td>
                             <td style="width: 23%;">{{qrset.tagsFromString|join(', ')}}</td>
                             <td style="width: 23%;">{{qrset.redemptions.count}}{% if qrset.redemptions.count > 0 %}| <a href="{{path('qrset', {'qrset': qrset.id})}}">{{'qr.view'|trans}}</a>{% endif %}</td>
                             <td style="width: 21%;"><form action="{{path('download_qr', {'qrset': qrset.id})}}"><input type="number" name="quantity" style="width: 50px; margin-right: 5px; padding-top: 3px; padding-bottom: 6px;" value="{{constant('Pixelbonus\\SiteBundle\\Entity\\QRSet::DEFAULT_QUANTITY')}}" required /><input type="submit" class="btn btn-default btn-sm" value="{{'qr.print'|trans}}" /></form></td>

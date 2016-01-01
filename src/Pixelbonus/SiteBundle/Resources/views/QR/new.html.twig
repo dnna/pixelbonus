@@ -31,8 +31,9 @@
     <script>
         var existingTags = [{% spaceless %}
             {% for tag in existingTags %}
-                "{{tag.name}}"{% if not loop.last %},{% endif %}
+                "{{tag.name}}",
             {% endfor %}
+            "{{'now'|date('d-m-Y H:i:s')}}"
         {% endspaceless%}];
     </script>
     <script src="{{asset('js/pages/qrsets.js')}}"></script>
