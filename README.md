@@ -5,13 +5,10 @@ This repository contains a puppet script for setting up pixelbonus on a clean in
 To use it run the following commands while inside the "puppet" directory of the application:
 
  - apt-get install puppet
- - puppet module install puppetlabs/mysql
- - puppet module install puppetlabs/vcsrepo
- - puppet module install willdurand-composer
- - git clone [pixelbonus URL]
- - cd pixelbonus/puppet
- - puppet apply pixelbonus.pp
+ - puppet module install dnna-pixelbonus
+ - puppet apply -e 'include pixelbonus'
  - Change the secret key and mailer configuration at /var/www/pixelbonus/app/config/parameters.yml
+ - rm -fR /var/www/pixelbonus/app/cache/*
 
 ## Configuration
 After installing pixelbonus, a few configuration parameters need to be set based on the particular setup. These include database and mailer configuration and a secret key to be used when encrypting the QR codes.
