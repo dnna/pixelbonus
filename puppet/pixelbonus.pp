@@ -4,8 +4,9 @@
 # puppet module install willdurand-composer
 
 # execute 'apt-get update'
-exec { 'apt-update':                    # exec resource named 'apt-update'
-  command => '/usr/bin/apt-get update'  # command this resource will run
+  exec { 'apt-update':                    # exec resource named 'apt-update'
+  command => '/usr/bin/apt-get update',  # command this resource will run
+  onlyif => "/bin/bash -c 'exit $(( $(( $(date +%s) - $(stat -c %Y /var/lib/apt/lists/$( ls /var/lib/apt/lists/ -tr1|tail -1 )) )) <= 2419200 ))'" # Only update if repo older than a month
 }
 
 # install apache2 package
@@ -19,6 +20,7 @@ exec { 'allow-override':
   path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
   cwd     => '/etc/apache2',
   require => [ Package['apache2'] ],
+  onlyif  => 'grep -c "AllowOverride None" /etc/apache2/apache2.conf',
 }
 
 exec { 'enable-mod-rewrite':
@@ -26,6 +28,7 @@ exec { 'enable-mod-rewrite':
   path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
   cwd     => '/etc/apache2',
   require => [ Exec['allow-override'] ],
+  unless  => 'apachectl -t -D DUMP_MODULES |grep -c rewrite',
 }
 
 # ensure apache2 service is running
@@ -64,6 +67,7 @@ exec { 'enable-mcrypt':
   path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
   cwd     => '/etc/apache2',
   require => [ Package['php5-mcrypt'] ],
+  unless  => 'php -i |grep -c mcrypt',
 }
 
 mysql::db { 'pixelbonus':
@@ -80,12 +84,29 @@ package { 'git':
   ensure => installed,
 }
 
+file { 'ensure-vcs-folder-permissions':
+  path   => '/var/www/pixelbonus',
+  ensure => 'directory',
+  recurse => true,
+  owner => 'www-data',
+  group => 'www-data',
+}
+
+file { 'ensure-cache-folder-permissions':
+  path   => '/usr/local/bin/cache',
+  ensure => 'directory',
+  recurse => true,
+  owner => 'www-data',
+  group => 'www-data',
+}
+
 vcsrepo { "/var/www/pixelbonus":
     ensure   => latest,
-    owner    => $owner,
-    group    => $owner,
+    user     => 'www-data',
+    owner    => 'www-data',
+    group    => 'www-data',
     provider => git,
-    require  => [ Package["git"] ],
+    require  => [ Package["git"], File['ensure-vcs-folder-permissions'], File['ensure-cache-folder-permissions'] ],
     source   => "https://github.com/dnna/pixelbonus.git",
     revision => 'master',
 }
@@ -106,26 +127,30 @@ exec { 'composer-update':
   path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
   cwd     => '/var/www/pixelbonus',
   environment => [ "COMPOSER_HOME=/usr/local/bin" ],
-  require => [ Class['composer'], Package['wkhtmltopdf'], Package['xvfb'] ],
+  user    => 'www-data',
+  refreshonly => true,
+  subscribe => Vcsrepo['/var/www/pixelbonus'],
+  require => [ Vcsrepo['/var/www/pixelbonus'], Class['composer'], Package['wkhtmltopdf'], Package['xvfb'] ],
+  tries => 10,
+  try_sleep => 5,
+}
+
+file { 'document-root':
+  path   => '/var/www/html',
+  force  => true,
+  ensure => 'link',
+  owner => 'www-data',
+  group => 'www-data',
+  target => '/var/www/pixelbonus/web',
+  require => [ Vcsrepo['/var/www/pixelbonus'] ],
 }
 
 exec { 'schema-update':
   command => "php app/console doctrine:schema:update --force",
   path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
   cwd     => '/var/www/pixelbonus',
+  user    => 'www-data',
+  refreshonly => true,
+  subscribe => Exec['composer-update'],
   require => [ Exec['composer-update'] ],
-}
-
-exec { 'setup-document-root':
-  command => "rm -fR /var/www/html; ln -s /var/www/pixelbonus/web /var/www/html",
-  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
-  cwd     => '/var/www/pixelbonus',
-  require => [ Exec['composer-update'] ],
-}
-
-exec { 'fix-permissions':
-  command => "chown -R www-data:www-data /var/www/pixelbonus; chown -R www-data:www-data /var/www/html",
-  path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
-  cwd     => '/var/www/pixelbonus',
-  require => [ Exec['setup-document-root'] ],
 }
