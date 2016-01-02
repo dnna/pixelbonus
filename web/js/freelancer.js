@@ -24,6 +24,16 @@ $(function() {
     }).on("blur", ".floating-label-form-group", function() {
         $(this).removeClass("floating-label-form-group-with-focus");
     });
+    // Initial decision whether to show
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('.floating-label-form-group').each(function() {
+                if($(this).children('input,select').val().length > 0) {
+                    $(this).addClass("floating-label-form-group-with-value");
+                }
+            });
+        }, 100);
+    });
 });
 
 // Highlight the top nav as scrolling occurs

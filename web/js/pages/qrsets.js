@@ -7,7 +7,7 @@ $(function() {
             return false;
         });
 
-        var $select2 = $("#qrset_tagsFromString").select2({
+        $("#qrset_tagsFromString").select2({
             tags: true,
             selectOnBlur: true,
             data: existingTags,
@@ -17,15 +17,12 @@ $(function() {
                     return "";
                 }
             },
-            initSelection: function (element, callback) {
-                var data = [{id: existingTags[existingTags.length-1], text: existingTags[existingTags.length-1]}];
-                //$(element.val().split(/;/)).each(function () {
-                    //data.push({id: this, text: this });
-                //});
-                callback(data);
-            },
             tokenSeparators: [',', ' ']
         });
+        $("#qrset_tagsFromString").val([
+            existingTags[existingTags.length-2],
+            existingTags[existingTags.length-1]
+        ]).trigger('change');
 
         $('#new-qr-set-form.fhide').hide();
     });

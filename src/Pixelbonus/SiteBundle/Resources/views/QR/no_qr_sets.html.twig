@@ -36,7 +36,7 @@
 
 {% block javascripts %}
     <script>
-        var existingTags = ["{{'now'|date('d-m-Y H:i:s')}}"];
+        var existingTags = ["{{'now'|date('d-m-Y')}}", "{{'now'|date('H:i')}}"];
     </script>
     <script src="{{asset('js/pages/qrsets.js')}}"></script>
 {% endblock %}
