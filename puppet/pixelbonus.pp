@@ -43,6 +43,7 @@ package { 'mysql-server':
 # ensure mysql service is running
 service { 'mysql':
   ensure => running,
+  require => [ Package['mysql-server'] ],
 }
 
 # install php5 package
@@ -70,6 +71,7 @@ mysql::db { 'pixelbonus':
   password => 'pixelbonus',
   host     => 'localhost',
   grant    => ['SELECT', 'UPDATE'],
+  require => [ Service['mysql'] ],
 }
 
 # install git package
