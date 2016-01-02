@@ -11,7 +11,7 @@ To use it run the following commands while inside the "puppet" directory of the 
  - git clone [pixelbonus URL]
  - cd pixelbonus/puppet
  - puppet apply pixelbonus.pp
- - Change the secret key at /var/www/pixelbonus/app/config/parameters.yml
+ - Change the secret key and mailer configuration at /var/www/pixelbonus/app/config/parameters.yml
 
 ## Configuration
 After installing pixelbonus, a few configuration parameters need to be set based on the particular setup. These include database and mailer configuration and a secret key to be used when encrypting the QR codes.
