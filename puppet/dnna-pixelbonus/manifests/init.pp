@@ -4,14 +4,12 @@ class pixelbonus (
     $repo_url = 'https://github.com/dnna/pixelbonus.git',
     $apt_update_threshold = 2419200
 ) {
-    include mysql
-    include vcsrepo
     include composer
 
     # execute 'apt-get update'
       exec { 'apt-update':                    # exec resource named 'apt-update'
       command => '/usr/bin/apt-get update',  # command this resource will run
-      onlyif => "/bin/bash -c 'exit $(( $(( $(date +%s) - $(stat -c %Y /var/lib/apt/lists/$( ls /var/lib/apt/lists/ -tr1|tail -1 )) )) <= "$apt_update_threshold" ))'" # Only update if repo older than a month
+      onlyif => "/bin/bash -c 'exit $(( $(( $(date +%s) - $(stat -c %Y /var/lib/apt/lists/$( ls /var/lib/apt/lists/ -tr1|tail -1 )) )) <= ${apt_update_threshold} ))'" # Only update if repo older than a month
     }
 
     # install apache2 package

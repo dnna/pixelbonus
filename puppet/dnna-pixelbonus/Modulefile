@@ -1,5 +1,5 @@
 name    'dnna-pixelbonus'
-version '0.1.0'
+version '0.1.2'
 source 'UNKNOWN'
 author 'dnna'
 license 'Apache License, Version 2.0'
@@ -9,6 +9,6 @@ project_page 'UNKNOWN'
 
 ## Add dependencies, if any:
 # dependency 'username/name', '>= 1.2.0'
-dependency 'puppetlabs/mysql', '*'
-dependency 'puppetlabs/vcsrepo', '*'
-dependency 'willdurand-composer', '*'
+dependency 'puppetlabs/mysql', '>= 3.6.2'
+dependency 'puppetlabs/vcsrepo', '>= 1.3.2'
+dependency 'willdurand-composer', '>= 1.1.1'
