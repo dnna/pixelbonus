@@ -192,7 +192,7 @@ class QRController extends Controller {
             // Create the QR Entity
             $qrCode = new QrCode();
             $qrCode->setQrset($qrset);
-            $hash = hash_hmac('sha1', $qrset->getId().'_'.$i, $this->container->getParameter("secret"));
+            $hash = hash_hmac('sha1', $qrset->getId().'_'.$i, $qrset->getCourse()->getUser()->getPassword());
             $qrCode->setCode($hash);
             $this->container->get('doctrine')->getManager()->persist($qrCode);
             $toFlush[] = $qrCode;
