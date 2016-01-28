@@ -44,6 +44,10 @@ class User extends BaseUser
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     protected $courses;
+    /**
+     * @ORM\Column(name="preferred_grading_model", type="string", nullable=true)
+     */
+    protected $preferredGradingModel = 'reduction';
 
     public function __construct() {
         parent::__construct();
@@ -96,5 +100,13 @@ class User extends BaseUser
 
     function setCourses($courses) {
         $this->courses = $courses;
+    }
+
+    function getPreferredGradingModel() {
+        return $this->preferredGradingModel;
+    }
+
+    function setPreferredGradingModel($preferredGradingModel) {
+        $this->preferredGradingModel = $preferredGradingModel;
     }
 }

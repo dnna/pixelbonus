@@ -94,6 +94,10 @@ header .container > hr, hr.star-primary {
     margin-top: 19.5px;
     margin-bottom: 19.5px;
 }
+
+.navbar-user .profile-dropdown a {
+    color: #2c3e50;
+}
 /* End header */
 
 /* Footer */

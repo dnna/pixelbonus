@@ -1,0 +1,36 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block title %}{{'header.profile_edit'|trans({}, 'messages')}}{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{'header.profile_edit'|trans({}, 'messages')}}</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form action="{{ path("fos_user_profile_edit") }}" method="post">
+                    {{form_widget(form)}}
+                    <br>
+                    <div id="success"></div>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <button type="submit" name="_submit" class="btn btn-success btn-lg">{{'profile.edit.submit'|trans}}</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div>
+                        <a href="{{path('fos_user_change_password')}}">{{'header.change_password'|trans({}, 'messages')}}</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

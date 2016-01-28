@@ -7,11 +7,14 @@ use FOS\UserBundle\Form\Type\ProfileFormType as BaseType;
 
 class ProfileFormType extends BaseType
 {
-    public function buildUserForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
         $builder
-            ->add('username', 'text', array('required' => true))
-            ->add('email', 'email', array('required' => true))
+            ->add('preferredGradingModel', 'choice', array('required' => true, 'choices' => array(
+                'reduction' => 'reduction'
+            )))
+            ->remove('current_password');
         ;
     }
 

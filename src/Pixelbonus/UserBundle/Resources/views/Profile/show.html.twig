@@ -1,5 +1,26 @@
 {% extends 'PixelbonusSiteBundle::base.html.twig' %}
 
 {% block content %}
-    <meta http-equiv="refresh" content="1;URL={{path('home')}}">
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                {% if app.request.hasPreviousSession %}
+                    {% for type, messages in app.session.flashbag.all() %}
+                        {% for message in messages %}
+                            <div class="flash-{{ type }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                <meta http-equiv="refresh" content="1;URL={{path('home')}}">
+                {% endif %}
+                <p>
+                    <a href="{{path('courses')}}">{{'courses.courses'|trans}}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

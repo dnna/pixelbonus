@@ -4,6 +4,8 @@ header:
     register: Register
     logout: Logout
     my_courses: My activities
+    profile_edit: Profile
+    change_password: Change password
 
 home:
     motto: Your participation counts
