@@ -12,7 +12,7 @@ class QrSetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options = array())
     {
-        $tagOptions = array('multiple' => true, 'required' => false, 'label' => 'qr.form.tags', 'attr' => array('placeholder' => 'qr.form.tags'));
+        $tagOptions = array('multiple' => true, 'required' => true, 'label' => 'qr.form.tags', 'attr' => array('placeholder' => 'qr.form.tags'));
         $builder
             ->add('tagsFromString', 'choice', $tagOptions)
             ->add('quantity', null, array('required' => true, 'label' => 'qr.form.quantity', 'attr' => array('placeholder' => 'qr.form.quantity')))
