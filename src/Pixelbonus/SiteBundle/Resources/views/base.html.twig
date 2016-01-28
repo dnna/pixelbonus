@@ -77,7 +77,11 @@
                 {% if '/courses' in app.request.requestUri or '/qrset' in app.request.requestUri %}<a href="{{path('courses')}}">{{'header.my_courses'|trans}}</a>{% endif %}
             </div>
             <div class="pull-right">
-                {{app.user.name}} (<a href="{{path('fos_user_security_logout')}}">{{'header.logout'|trans}}</a>)
+                <a href="#profile-dropdown" class="dropdown-toggle" data-toggle="dropdown" data-target="profile-dropdown" role="button" aria-expanded="false">{{app.user.name}}  <span class="caret"></span></a>
+                <ul id="profile-dropdown" class="dropdown-menu profile-dropdown" role="menu" style="right: auto;">
+                    <li><a href="{{path('fos_user_profile_edit')}}">{{'header.profile_edit'|trans}}</a></li>
+                    <li><a href="{{path('fos_user_security_logout')}}">{{'header.logout'|trans}}</a></li>
+                </ul>
             </div>
         </div>
     </nav>

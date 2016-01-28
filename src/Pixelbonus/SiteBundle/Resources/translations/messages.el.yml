@@ -4,6 +4,8 @@ header:
     register: Εγγραφή
     logout: Αποσύνδεση
     my_courses: Οι δραστηριότητες μου
+    profile_edit: Προφίλ
+    change_password: Αλλαγή κωδικού
 
 home:
     motto: Η συμμετοχή σου μετράει
