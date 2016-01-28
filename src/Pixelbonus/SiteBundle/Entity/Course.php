@@ -4,6 +4,7 @@ namespace Pixelbonus\SiteBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use JMS\Serializer\Annotation\Exclude;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,6 +24,7 @@ class Course {
     /**
      * @ORM\ManyToOne(targetEntity="Pixelbonus\UserBundle\Entity\User", inversedBy="courses", fetch="EAGER")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @Exclude
      */
     protected $user;
     /**
@@ -32,6 +34,7 @@ class Course {
      /**
      * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\QrSet", mappedBy="course")
      * @ORM\OrderBy({"createdAt" = "DESC"})
+     * @Exclude
      */
     protected $qrSets;
 

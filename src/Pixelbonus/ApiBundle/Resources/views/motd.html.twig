@@ -1,0 +1,64 @@
+<div style="margin-left: 20px;">
+    <h2>Authentication:</h2>
+    <p>Authentication is performed using the HTTP Basic Auth. To perform an authenticated call to a resource simply send the relevant http auth headers with the request.</p>
+
+    <hr />
+
+    <h2>User details:</h2>
+    <p>The logged in user's details can be retrieved from "<i>{{host}}/api/users/me</i>" if a valid app token is provided.</p>
+
+    <hr />
+
+    <h2>Booleans:</h2>
+    <p>All boolean parameters in the GET query string are passed as true or false. 0 and 1 are not recognized. For example "<i>{{host}}/api/concepts?include_area_of_expertise=true</i>"<BR />
+       Booleans passed as a POST parameter, however, need to be in a 0 or 1 format. True and false will not be recognized.
+    </p>
+
+    <hr />
+
+    <h2>Pagination</h2>
+    <p>All list endpoints (users, dishes etc) are paginated. To change pages a "page" parameter must be passed. eg. <i>{{host}}/api/concepts?page=2</i><BR/>
+       The current page number is contained in the response header "Pagination-Current-Page".<BR />
+       The total number of items are contained in the response header "Pagination-Total-Item-Count".<BR />
+       The item count per page is contained in the response header "Pagination-Items-Per-Page".<BR />
+       The number of items per page can be customized by passing the "limit" parameter.
+    </p>
+
+    <hr />
+
+    <h2>Setting DateTime filters/fields</h2>
+    <p>DateTime fields are composite fields. This means they are not directly set, but broken down to simpler fields. A DateTime contains the following fields: "day", "month", "year", "hours", "minutes" and "seconds". For example if there was a credit card entity, the credit card expirationDate field would be set as follows:<BR />
+        <i>creditCard[expirationDate][day]=01</i><BR />
+        <i>creditCard[expirationDate][month]=05</i><BR />
+        <i>creditCard[expirationDate][year]=2012</i><BR />
+        Or in its raw form: <i>creditCard%5BexpirationDate%5D%5Bday%5D=23&creditCard%5BexpirationDate%5D%5Bmonth%5D=05&creditCard%5BexpirationDate%5D%5Byear%5D=2012</i>
+    </p>
+
+    <hr />
+
+    <h2>PUT/PATCH/DELETE requests</h2>
+    <p>Some browsers/libraries do not support PUT/PATCH/DELETE requests. For those, it is possible to pass everything as GET and just pass the _method parameter. For example to edit a user the following request can be made: <i>{{host}}/api/users/me?_method=PATCH&fos_user_profile_form[email]=test@test.com</i>
+    </p>
+
+    <hr />
+
+    <h2>Limiting the returned fields</h2>
+    <p>It is possible to return only a subset of an object's fields by passing the fields parameter followed by the requested fields. The syntax of the fields parameters is based on <a href="http://en.wikipedia.org/wiki/YAML" target="_blank">YAML</a> and can be nested in order to join different objects. Usage examples:<BR />
+       Get a user's name <i>{{host}}/api/users/me?fields=username</i><BR />
+       Get a concept's definition <i>{{host}}/api/concepts?fields={definition:[text_formatted]}</i><BR />
+    </p>
+
+    <hr />
+
+    <h2>Locale</h2>
+    <p>To select the locale of the returned content pass the "locale" parameter. By default content is returned using the "el" locale.</p>
+
+    <hr />
+
+    <h2>Error code 405:</h2>
+    <p>This error appears when requesting a valid resource (e.g. /users/me) but the requested method (e.g. GET, POST, PATCH) is not supported by that resource. The endpoints list below contains all supported methods for each resource.</p>
+
+    <hr />
+
+    <h2>Endpoints:</h2>
+</div>

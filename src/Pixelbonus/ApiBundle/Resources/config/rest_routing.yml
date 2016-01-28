@@ -1,0 +1,5 @@
+api_course:
+    type: rest
+    resource: Pixelbonus\ApiBundle\Controller\CourseController
+    options:
+      i18n: false
