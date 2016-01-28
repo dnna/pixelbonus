@@ -16,9 +16,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ResettingController extends BaseResettingController
 {
-    public function sendEmailAction(Request $request)
+    public function sendEmailAction()
     {
-        $username = $request->request->get('username');
+        $username = $this->container->get('request')->request->get('username');
 
         /** @var $user UserInterface */
         $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);

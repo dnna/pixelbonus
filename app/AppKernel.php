@@ -9,6 +9,7 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             new Pixelbonus\CommonBundle\PixelbonusCommonBundle(),
+            new Pixelbonus\ApiBundle\PixelbonusApiBundle(),
             new Pixelbonus\SiteBundle\PixelbonusSiteBundle(),
             new Pixelbonus\UserBundle\PixelbonusUserBundle(),
 
@@ -23,12 +24,16 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            // User Bundle
+            // User & REST Bundle
             new FOS\UserBundle\FOSUserBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            // API documentation
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             // Snappy Bundle
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             // JMS
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
             // Doctrine Extensions
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         );

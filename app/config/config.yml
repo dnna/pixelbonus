@@ -28,7 +28,7 @@ twig:
     strict_variables: %kernel.debug%
     globals:
         locales: %locales%
-        host: "//spatial.lab.teiath.gr"
+        host: "//pixelbonus.com"
     form:
         resources:
           - 'PixelbonusSiteBundle:Form:form_fields.html.twig'
@@ -115,6 +115,12 @@ fos_user:
 services:
     cache:
         class: Doctrine\Common\Cache\ApcCache
+    pixelbonus.paginator.extension:
+        class: Pixelbonus\CommonBundle\Extension\PaginatorExtension
+        tags:
+            -  { name: twig.extension }
+        arguments:
+            - "@service_container"
     pixelbonus.twig.extension.array:
         class: Twig_Extensions_Extension_Array
         tags:
@@ -147,6 +153,15 @@ jms_i18n_routing:
     locales: %locales%
     strategy: prefix_except_default
 
+jms_serializer:
+    metadata:
+        cache: apc
+        auto_detection: true
+        directories:
+            FOSUB:
+                namespace_prefix: FOS\UserBundle
+                path: %kernel.root_dir%/serializer/FOSUB
+
 knp_snappy:
     pdf:
         enabled:    true
@@ -161,3 +176,14 @@ stof_doctrine_extensions:
             blameable: true
             loggable: true
             uploadable: true
+
+nelmio_api_doc:
+    name: Pixelbonus API
+    sandbox:
+        authentication:
+            name: ~
+            delivery: http_basic
+            custom_endpoint: true
+        enabled: true
+    motd:
+        template: PixelbonusApiBundle::motd.html.twig
