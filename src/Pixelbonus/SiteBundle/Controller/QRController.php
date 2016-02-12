@@ -45,6 +45,7 @@ class QRController extends Controller {
      * @Secure(roles="ROLE_USER")
      */
     public function courseGrades(Course $course) {
+        $user = $this->container->get('security.context')->getToken()->getUser();
         // Get all tags
         $tags = $this->container->get('doctrine')->getManager()->createQuery('SELECT t FROM Pixelbonus\SiteBundle\Entity\Tag t JOIN t.qrsets qrs WHERE qrs.course = :course')->setParameter('course', $course)->getResult();
         $selectedTag = $this->getRequest()->get('tag');
@@ -58,7 +59,7 @@ class QRController extends Controller {
             $maxRedemptions = 1;
         }
         // Add the grade based on our model
-        $selectedGradingModel = $this->getRequest()->get('model', 'reduction');
+        $selectedGradingModel = $this->getRequest()->get('model', $user->getPreferredGradingModel());
         if($selectedGradingModel == 'reduction') {
             $redemptions = array_map(function($e) use ($maxRedemptions) {
                 $e['grade'] = min($e['rcount']/$maxRedemptions*10, 10);
