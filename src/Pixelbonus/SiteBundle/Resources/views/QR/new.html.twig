@@ -30,7 +30,7 @@
 {% block javascripts %}
     <script>
         var existingTags = [{% spaceless %}
-            {% for tag in existingTags %}
+            {% for tag in existingTags if tag.name != ('now'|date('d-m-Y')) and tag.name != ('now'|date('H:i')) %}
                 "{{tag.name}}",
             {% endfor %}
             "{{'now'|date('d-m-Y')}}", "{{'now'|date('H:i')}}"
