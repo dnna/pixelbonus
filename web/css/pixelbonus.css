@@ -114,8 +114,8 @@ footer .footer-below {
 /* End footer */
 
 /* Home page */
-.border-r {
-    border-right: 2px solid #2c3e50;
+.border-l {
+    border-left: 2px solid #2c3e50;
 }
 
 header .intro-text .name {
