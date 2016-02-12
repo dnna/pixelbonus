@@ -15,7 +15,7 @@ class QrSetType extends AbstractType
         $tagOptions = array('multiple' => true, 'required' => true, 'label' => 'qr.form.tags', 'attr' => array('placeholder' => 'qr.form.tags'));
         $builder
             ->add('tagsFromString', 'choice', $tagOptions)
-            ->add('quantity', null, array('required' => true, 'label' => 'qr.form.quantity', 'attr' => array('placeholder' => 'qr.form.quantity')))
+            ->add('quantity', 'integer', array('required' => true, 'label' => 'qr.form.quantity', 'attr' => array('placeholder' => 'qr.form.quantity')))
         ;
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($tagOptions) {
