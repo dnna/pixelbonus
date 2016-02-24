@@ -31,5 +31,21 @@ The configuration settings are located in **app/config/parameters.yml**. The fil
  - secret: A random string used as the key for encrypting QR codes.
  - wkhtmltopdf: Absolute path to the wkhtmltopdf binary.
 
+## Backing up
+Pixelbonus stores all data in its MySQL database, therefore backups can extracted simply using mysqldump. In production environments it is recommended to setup regular backups of the database. This can be easily set up with puppet using the following command:
+
+```puppet
+puppet apply -e '
+class { "::mysql::server":
+  root_password => "",
+}
+class { mysql::server::backup:
+  backupdatabases => [pixelbonus],
+  backupdir => "/root/pixelbonus_backups",
+'}
+```
+
+This will set up a cron job that runs every day at 23:05 and generates a database backup in /root/pixelbonus_backups. The resulting files can be synced to a remote host using rsync or similar utilities.
+
 ## Try it out
 To try it out without installing visit http://www.pixelbonus.com
