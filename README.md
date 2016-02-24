@@ -42,7 +42,7 @@ class { "::mysql::server":
 class { mysql::server::backup:
   backupdatabases => [pixelbonus],
   backupdir => "/root/pixelbonus_backups",
-'}
+}'
 ```
 
 This will set up a cron job that runs every day at 23:05 and generates a database backup in /root/pixelbonus_backups. The resulting files can be synced to a remote host using rsync or similar utilities.
