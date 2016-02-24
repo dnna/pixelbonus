@@ -8,28 +8,30 @@
             }
             .border {
                 border: 1px solid black;
-                page-break-inside: avoid;
             }
             .table {
                 border-collapse: collapse;
                 width: 100%;
+                page-break-inside: avoid;
             }
         </style>
     </head>
     <body>
-        <table class="table">
-        {% for row in qrImages|batch(2) %}
-            <tr>
-                {% for qr in row %}
-                <td class="border">
-                    <table>
-                        {% set qrLinkParts = qr.link|split('', qr.link|length//2) %}
-                        <tr><td>{{qr.svg|raw}}</td><td>{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</td></tr>
-                    </table>
-                </td>
-                {% endfor %}
-            </tr>
+        {% for batchedQrImages in qrImages|batch(16) %}
+            <table class="table">
+            {% for row in batchedQrImages|batch(2) %}
+                <tr class="tr-avoid-break">
+                    {% for qr in row %}
+                    <td class="border">
+                        <table>
+                            {% set qrLinkParts = qr.link|split('', qr.link|length//2) %}
+                            <tr><td>{{qr.svg|raw}}</td><td>{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</td></tr>
+                        </table>
+                    </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </table>
         {% endfor %}
-        </table>
     </body>
 </html>
