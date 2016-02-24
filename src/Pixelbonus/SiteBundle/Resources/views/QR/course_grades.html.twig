@@ -24,13 +24,13 @@
                 </ul>
             </div>
         </div>
-        <hr />
+        {#<hr />
         <div class="row text-center">
             <div class="col-lg-2">
             {{'qr.grading_model'|trans}}:
             </div>
             <div class="col-lg-2"><a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'course': course.id, 'model': 'reduction'}))}}" {% if selectedGradingModel == 'reduction' %}style="text-decoration: underline;"{% endif %}>{{'qr.reduction'|trans}}</a></div>
-        </div>
+        </div>#}
         <hr />
         <div class="row text-center">
             <div class="col-lg-12">

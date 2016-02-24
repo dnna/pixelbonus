@@ -11,6 +11,8 @@ home:
     motto: Your participation counts
     im_participant: I'm a participant
     im_instructor: I'm an instructor
+    participant_legend: Here you can redeem your personal QR code with only 2 clicks. Enter the code and your personal identifier and your participation will be instantly counted.
+    instructor_legend: With Pixelbonus, you can reward active participation of the students by providing personal QR codes that they can redeem quickly and easily. Create an activity/course, print the codes and form rankings using several grading models.
 
 courses:
     no_courses: You haven't created any activities yet
