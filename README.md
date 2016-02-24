@@ -32,7 +32,7 @@ The configuration settings are located in **app/config/parameters.yml**. The fil
  - wkhtmltopdf: Absolute path to the wkhtmltopdf binary.
 
 ## Backing up
-Pixelbonus stores all data in its MySQL database, therefore backups can extracted simply using mysqldump. In production environments it is recommended to setup regular backups of the database. This can be easily set up with puppet using the following command:
+Pixelbonus stores all data in its MySQL database. Puppet can be easily set up to generate daily backups of the database. To do this run the following command in the shell of the server:
 
 ```puppet
 puppet apply -e '
