@@ -205,6 +205,10 @@ class QRController extends Controller {
             \QRcode::svg($link, $fileName);
             $qrImage['link'] = $qrCode->getCode();
             $qrImage['svg'] = file_get_contents($fileName);
+            $xml = simplexml_load_string($qrImage['svg']);
+            $xml['width'] = 135;
+            $xml['height'] = 135;
+            $qrImage['svg'] = $xml->asXML();
             $qrImages[] = $qrImage;
         }
         $this->container->get('doctrine')->getManager()->persist($qrset);
