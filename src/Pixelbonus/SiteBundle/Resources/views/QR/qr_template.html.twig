@@ -3,9 +3,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <style type="text/css">
-            body {
-                font-family:'Lucida Console', monospace;
-            }
             .border {
                 border: 1px solid black;
             }
@@ -25,7 +22,7 @@
                     <td class="border">
                         <table>
                             {% set qrLinkParts = qr.link|split('', qr.link|length//2) %}
-                            <tr><td>{{qr.svg|raw}}</td><td>{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</td></tr>
+                            <tr><td>{{qr.svg|raw}}</td><td><pre>{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</pre></td></tr>
                         </table>
                     </td>
                     {% endfor %}
