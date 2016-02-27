@@ -3,6 +3,7 @@
 {% block content %}
 <section>
     <div class="container">
+        {% block grades_header %}
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2>{{'qr.grades'|trans}}</h2>
@@ -32,14 +33,15 @@
             <div class="col-lg-2"><a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'course': course.id, 'model': 'reduction'}))}}" {% if selectedGradingModel == 'reduction' %}style="text-decoration: underline;"{% endif %}>{{'qr.reduction'|trans}}</a></div>
         </div>#}
         <hr />
+        {% endblock %}
         <div class="row text-center">
             <div class="col-lg-12">
                 <h3 style="margin-top: 0px; margin-bottom: 25px;">{{course.name}}</h3>
                 <table class="table table-bordered grades-table">
                     <tr>
-                        <th><a href="{{path('course_grades', app.request.query.all()|merge({'course': course.id, 'sortBy': 'participantNumber'}))}}" {% if selectedSortField == 'participantNumber' %}style="text-decoration: underline;"{% endif %}>{{'redemption.participantNumber'|trans}}</a></th>
-                        <th><a href="{{path('course_grades', app.request.query.all()|merge({'course': course.id, 'sortBy': 'rcount'}))}}" {% if selectedSortField == 'rcount' %}style="text-decoration: underline;"{% endif %}>{{'redemption.redemptionCount'|trans}}</a></th>
-                        <th><a href="{{path('course_grades', app.request.query.all()|merge({'course': course.id, 'sortBy': 'grade'}))}}" {% if selectedSortField == 'grade' %}style="text-decoration: underline;"{% endif %}>{{'redemption.grade'|trans}}</a></th>
+                        <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'participantNumber'}))}}" {% if selectedSortField == 'participantNumber' %}style="text-decoration: underline;"{% endif %}>{{'redemption.participantNumber'|trans}}</a></th>
+                        <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'rcount'}))}}" {% if selectedSortField == 'rcount' %}style="text-decoration: underline;"{% endif %}>{{'redemption.redemptionCount'|trans}}</a></th>
+                        <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'grade'}))}}" {% if selectedSortField == 'grade' %}style="text-decoration: underline;"{% endif %}>{{'redemption.grade'|trans}}</a></th>
                     </tr>
                     {% for redemption in redemptions %}
                         <tr>
@@ -49,9 +51,11 @@
                         </tr>
                     {% endfor %}
                 </table>
+                {% block grades_actions %}
                 <a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'export': 'true'}))}}" id="new-qr-set" class="btn btn-default">{{'qr.grades_export'|trans}}</a>
                 <hr />
                 <p><a href="{{path('course', {'course': course.id})}}">{{ 'redemption.back'|trans }}</a></p>
+                {% endblock %}
             </div>
         </div>
     </div>

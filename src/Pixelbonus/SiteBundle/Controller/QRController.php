@@ -3,7 +3,9 @@
 namespace Pixelbonus\SiteBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -44,41 +46,14 @@ class QRController extends Controller {
      * @Route("/course/{course}/qrset/grades", name="course_grades")
      * @Secure(roles="ROLE_USER")
      */
-    public function courseGrades(Course $course) {
+    public function courseGrades(Course $course, Request $request) {
         $user = $this->container->get('security.context')->getToken()->getUser();
         // Get all tags
         $tags = $this->container->get('doctrine')->getManager()->createQuery('SELECT t FROM Pixelbonus\SiteBundle\Entity\Tag t JOIN t.qrsets qrs WHERE qrs.course = :course')->setParameter('course', $course)->getResult();
         $selectedTag = $this->getRequest()->get('tag');
-        // Execute the query for getting the redemptions
-        $tagAppendQuery = $selectedTag != null ? ('JOIN qr.tags t WHERE t.id = :tagId AND') : 'WHERE';
-        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr '.$tagAppendQuery.' qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course);
-        if($selectedTag != null) { $redemptions = $redemptions->setParameter('tagId', $selectedTag)->getResult(); } else { $redemptions = $redemptions->getResult();  }
-        if(count($redemptions) > 0) {
-            $maxRedemptions = max(array_map(function($e) {return (int)$e['rcount'];}, $redemptions));
-        } else {
-            $maxRedemptions = 1;
-        }
-        // Add the grade based on our model
-        $selectedGradingModel = $this->getRequest()->get('model', $user->getPreferredGradingModel());
-        if($selectedGradingModel == 'reduction') {
-            $redemptions = array_map(function($e) use ($maxRedemptions) {
-                $e['grade'] = min($e['rcount']/$maxRedemptions*10, 10);
-                $e['grade'] = round($e['grade'], 2);
-                return $e;
-            }, $redemptions);
-        } else {
-            return new Response('Invalid grading model selected');
-        }
-        // Sort the grades by the selected field
         $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
         $headerFields = array('participantNumber', 'rcount', 'grade',);
-        if(!in_array($selectedSortField, $headerFields)) {
-            return new Response('Invalid sort attribute selected');
-        }
-        uasort($redemptions, function($a, $b) use($selectedSortField) {
-            if($a[$selectedSortField] == $b[$selectedSortField]) { return 0; }
-            if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
-        });
+        $redemptions = $this->getRedemptions($course, $user->getPreferredGradingModel(), $selectedTag, $selectedSortField, $headerFields);
         // Export or render HTML
         if($this->getRequest()->get('export') === 'true') {
             $response = new StreamedResponse(function() use(&$redemptions, &$headerFields) {
@@ -100,10 +75,57 @@ class QRController extends Controller {
                 'tags' => $tags,
                 'redemptions' => $redemptions,
                 'selectedTag' => $selectedTag,
-                'selectedGradingModel' => $selectedGradingModel,
+                'selectedGradingModel' => $user->getPreferredGradingModel(),
                 'selectedSortField' => $selectedSortField,
             ));
         }
+    }
+
+    /**
+     * @Route("/course_overview/{course}", name="course_overview")
+     * @ParamConverter("course", class="Pixelbonus\SiteBundle\Entity\Course", options={"repository_method" = "findOneByHashedUrl"})
+     */
+    public function courseOverview(Course $course, Request $request) {
+        $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
+        $headerFields = array('participantNumber', 'rcount', 'grade',);
+        $redemptions = $this->getRedemptions($course, $course->getUser()->getPreferredGradingModel(), null, $selectedSortField, $headerFields);
+        return $this->render('PixelbonusSiteBundle:QR:course_overview.html.twig', array(
+            'course' => $course,
+            'redemptions' => $redemptions,
+            'selectedSortField' => $selectedSortField,
+        ));
+    }
+
+    private function getRedemptions(Course $course, $gradingModel, $selectedTag, $selectedSortField, $headerFields) {
+        // Execute the query for getting the redemptions
+        $tagAppendQuery = $selectedTag != null ? ('JOIN qr.tags t WHERE t.id = :tagId AND') : 'WHERE';
+        $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr '.$tagAppendQuery.' qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course);
+        if($selectedTag != null) { $redemptions = $redemptions->setParameter('tagId', $selectedTag)->getResult(); } else { $redemptions = $redemptions->getResult();  }
+        if(count($redemptions) > 0) {
+            $maxRedemptions = max(array_map(function($e) {return (int)$e['rcount'];}, $redemptions));
+        } else {
+            $maxRedemptions = 1;
+        }
+        // Add the grade based on our model
+        $selectedGradingModel = $this->getRequest()->get('model', $gradingModel);
+        if($selectedGradingModel == 'reduction') {
+            $redemptions = array_map(function($e) use ($maxRedemptions) {
+                $e['grade'] = min($e['rcount']/$maxRedemptions*10, 10);
+                $e['grade'] = round($e['grade'], 2);
+                return $e;
+            }, $redemptions);
+        } else {
+            return new Response('Invalid grading model selected');
+        }
+        // Sort the grades by the selected field
+        if(!in_array($selectedSortField, $headerFields)) {
+            return new Response('Invalid sort attribute selected');
+        }
+        uasort($redemptions, function($a, $b) use($selectedSortField) {
+            if($a[$selectedSortField] == $b[$selectedSortField]) { return 0; }
+            if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
+        });
+        return $redemptions;
     }
 
     /**

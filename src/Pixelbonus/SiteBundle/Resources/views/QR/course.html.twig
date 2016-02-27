@@ -35,6 +35,9 @@
                 <a href="{{path('new_qrset', {'course': course.id})}}" id="new-qr-set" class="btn btn-default">{{'qr.create'|trans}}</a>
                 <hr />
                 <a href="{{path('course_grades', {'course': course.id})}}" class="btn btn-success">{{'qr.grades'|trans}}</a>
+                <hr />
+                <h5>{{'qr.overview'|trans}}:</h5>
+                <a href="{{url('course_overview', {'course': course.hashedUrl})}}">{{url('course_overview', {'course': course.hashedUrl})}}</a>
             </div>
         </div>
     </div>

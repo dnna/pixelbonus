@@ -37,6 +37,10 @@ class Course {
      * @Exclude
      */
     protected $qrSets;
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $hashedUrl;
 
     public function __construct() {
         $this->qrSets = new ArrayCollection();
@@ -48,6 +52,10 @@ class Course {
 
     function getUser() {
         return $this->user;
+    }
+
+    function getHashedUrl() {
+        return $this->hashedUrl;
     }
 
     function setUser($user) {
@@ -72,6 +80,10 @@ class Course {
 
     function setQrSets($qrSets) {
         $this->qrSets = $qrSets;
+    }
+
+    function setHashedUrl($hashedUrl) {
+        $this->hashedUrl = $hashedUrl;
     }
 }
 

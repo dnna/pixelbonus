@@ -46,6 +46,7 @@ class CourseController extends Controller {
             if(!$this->getRequest()->request->has($form->getName())) {
                 echo 'No form fields specified'; die();
             } else if($form->isValid()) {
+                $course->setHashedUrl(md5(time().'_'.$course->getUser()->getId().'_'.$course->getName()));
                 $this->container->get('doctrine')->getManager()->persist($course);
                 $this->container->get('doctrine')->getManager()->flush($course);
 
