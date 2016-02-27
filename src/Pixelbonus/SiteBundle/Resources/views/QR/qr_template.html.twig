@@ -25,10 +25,11 @@
                 <tr class="tr-avoid-break">
                     {% for qr in row %}
                     <td class="border">
-                        <table>
+                        <div style="width: 100%">
                             {% set qrLinkParts = qr.link|split('', qr.link|length//2) %}
-                            <tr><td>{{qr.svg|raw}}</td><td>{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</td></tr>
-                        </table>
+                            <div style="display: inline-block; vertical-align: middle;">{{qr.svg|raw}}</div>
+                            <div style="display: inline-block; vertical-align: middle;">{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</div>
+                        </div>
                     </td>
                     {% endfor %}
                 </tr>
