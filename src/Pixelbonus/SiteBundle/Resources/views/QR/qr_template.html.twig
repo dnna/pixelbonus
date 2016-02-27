@@ -5,6 +5,7 @@
         <style type="text/css">
             {% include 'PixelbonusSiteBundle:QR:qr_template_font.css.twig' %}
             body {
+                margin: 0;
                 font-family:'LucidaLocal Console', monospace;
             }
             .border {
@@ -18,7 +19,7 @@
         </style>
     </head>
     <body>
-        {% for batchedQrImages in qrImages|batch(14) %}
+        {% for batchedQrImages in qrImages|batch(16) %}
             <table class="table">
             {% for row in batchedQrImages|batch(2) %}
                 <tr class="tr-avoid-break">
