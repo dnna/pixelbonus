@@ -59,6 +59,7 @@ class ApiController extends Controller {
             }
         }
         // End handling the fields parameter
+        $serializationContext->setGroups(array('list'));
         $view->setSerializationContext($serializationContext);
         // Workaround for a JMS serializer bug where the keys are sometimes turned into strings producing {"0": "xyz"} instead of ["xyz"]
         $response = $this->get('fos_rest.view_handler')->handle($view);

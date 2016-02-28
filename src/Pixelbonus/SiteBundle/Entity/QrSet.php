@@ -4,6 +4,7 @@ namespace Pixelbonus\SiteBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use JMS\Serializer\Annotation\Type;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,7 +38,9 @@ class QrSet {
      * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\QrCode", mappedBy="qrset")
      */
     protected $qrcodes;
-
+    /**
+     * @Type("integer")
+     */
     protected $quantity; // Non-persistent
     const DEFAULT_QUANTITY = 10;
 

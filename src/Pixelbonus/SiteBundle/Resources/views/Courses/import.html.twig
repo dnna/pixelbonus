@@ -1,0 +1,28 @@
+{% extends 'PixelbonusSiteBundle::base.html.twig' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>{{'courses.new'|trans}}</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row" id="new-course-form">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form action="{{path('import_course')}}" enctype="multipart/form-data" method="post">
+                    {{form_widget(form)}}
+                    <br>
+                    <div id="success"></div>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <button type="submit" name="_submit" class="btn btn-success btn-lg">{{'courses.form.import'|trans}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

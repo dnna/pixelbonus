@@ -22,6 +22,7 @@ courses:
     form:
         name: Enter the name of your activity
         create: Create
+        import: Import from file
     courses: Activities
     create_qr_set: Create QR set
     qr_set_hint: To print QR codes, you must first create a QR set. The QR set can optionally contain tags if you wish to group codes by certain attributes (e.g. lecture number, subject names, academic year etc.)
@@ -41,6 +42,8 @@ qr:
     view: Details
     print: Print
     delete: Delete
+    export: Export
+    import: Import activity from file
     download_text: Download will start soon. If the download dialog does not open in the next few seconds click <a id="qr-download-link" href="%link%">here</a>.
     return_course: Return to the activity
     form:

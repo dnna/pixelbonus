@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +20,7 @@ class Course {
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"list", "export"})
      */
     protected $id;
     /**
@@ -29,16 +31,18 @@ class Course {
     protected $user;
     /**
      * @ORM\Column(type="string")
+     * @Groups({"list", "export"})
      */
     protected $name;
      /**
      * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\QrSet", mappedBy="course")
      * @ORM\OrderBy({"createdAt" = "DESC"})
-     * @Exclude
+     * @Groups({"export"})
      */
     protected $qrSets;
     /**
      * @ORM\Column(type="string", unique=true)
+     * @Groups({"list", "export"})
      */
     protected $hashedUrl;
 

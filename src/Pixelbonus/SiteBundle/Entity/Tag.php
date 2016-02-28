@@ -4,6 +4,7 @@ namespace Pixelbonus\SiteBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * @ORM\Table()
@@ -25,6 +26,7 @@ class Tag
     private $name;
     /**
      * @ORM\ManyToMany(targetEntity="Pixelbonus\SiteBundle\Entity\QrSet", mappedBy="tags", cascade={"persist"})
+     * @Exclude
      */
     private $qrsets;
 
