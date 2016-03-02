@@ -224,7 +224,7 @@ class QRController extends Controller {
             // Generate QR image based on the created entity
             $qrImage = array();
             $fileName = tempnam($this->container->getParameter("kernel.cache_dir"), 'qrimg');
-            $link = $this->container->get('router')->generate('redeem', array('hash' => $qrCode->getCode()), true);
+            $link = $this->getRequest()->getHost().$this->container->get('router')->generate('redeem', array('hash' => $qrCode->getCode()));
             \QRcode::svg($link, $fileName);
             $qrImage['link'] = $qrCode->getCode();
             $qrImage['svg'] = file_get_contents($fileName);
