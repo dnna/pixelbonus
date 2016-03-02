@@ -16,7 +16,7 @@
                         <tr>
                             <td><b><a href="{{path('course', {'course': course.id})}}">{{course.name}}</a></b></td>
                             <td><a href="{{path('export_course', {'course': course.id})}}">{{'qr.export'|trans}}</a></td>
-                            <td style="width: 10%;"><a href="{{path('delete_course', {'course': course.id})}}" onclick="return confirm('Are you sure you want to delete this?');">{{'qr.delete'|trans}}</a></td>
+                            <td style="width: 10%;"><a href="{{path('delete_course', {'course': course.id})}}" onclick="return prompt('Please type YES to delete') === 'YES';">{{'qr.delete'|trans}}</a></td>
                         </tr>
                     {% endfor %}
                 </table>
