@@ -36,7 +36,10 @@
                         <div style="width: 100%; height: 140px; overflow: hidden;">
                             {% set qrLinkParts = qr.link|split('', qr.link|length//2) %}
                             <div style="display: inline-block; vertical-align: middle; height: 140px; overflow: hidden;">{{qr.svg|raw}}</div>
-                            <div style="display: inline-block; vertical-align: middle; height: 40px; overflow: hidden;">{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</div>
+                            <div style="display: inline-block; vertical-align: middle; height: 60px; overflow: hidden;">
+                                <div>{{qrLinkParts[0]|split('', 4)|join(' ')}}<BR />{{qrLinkParts[1]|split('', 4)|join(' ')}}</div>
+                                <div style="margin-top: 10px; text-align: center;"><small>{{app.request.host}}</small></div>
+                            </div>
                         </div>
                     </td>
                     {% endfor %}
