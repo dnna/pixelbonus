@@ -93,6 +93,7 @@ class QRController extends Controller {
             'course' => $course,
             'redemptions' => $redemptions,
             'selectedSortField' => $selectedSortField,
+            'hideGrades' => true,
         ));
     }
 

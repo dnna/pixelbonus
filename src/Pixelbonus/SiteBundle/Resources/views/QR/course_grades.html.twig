@@ -41,13 +41,13 @@
                     <tr>
                         <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'participantNumber'}))}}" {% if selectedSortField == 'participantNumber' %}style="text-decoration: underline;"{% endif %}>{{'redemption.participantNumber'|trans}}</a></th>
                         <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'rcount'}))}}" {% if selectedSortField == 'rcount' %}style="text-decoration: underline;"{% endif %}>{{'redemption.redemptionCount'|trans}}</a></th>
-                        <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'grade'}))}}" {% if selectedSortField == 'grade' %}style="text-decoration: underline;"{% endif %}>{% if selectedGradingModel is defined and selectedGradingModel == 'ranking' %}{{'redemption.ranking'|trans}}{% else %}{{'redemption.grade'|trans}}{% endif %}</a></th>
+                        {% if hideGrades is not defined or hideGrades != true %}<th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'grade'}))}}" {% if selectedSortField == 'grade' %}style="text-decoration: underline;"{% endif %}>{{'redemption.grade'|trans}}</a></th>{% endif %}
                     </tr>
                     {% for redemption in redemptions %}
                         <tr>
                             <td>{{redemption.participantNumber}}</td>
                             <td>{{redemption.rcount}}</td>
-                            <td>{{redemption.grade}}</td>
+                            {% if hideGrades is not defined or hideGrades != true %}<td>{{redemption.grade}}</td>{% endif %}
                         </tr>
                     {% endfor %}
                 </table>
