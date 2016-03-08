@@ -52,8 +52,9 @@ class QRController extends Controller {
         $tags = $this->container->get('doctrine')->getManager()->createQuery('SELECT t FROM Pixelbonus\SiteBundle\Entity\Tag t JOIN t.qrsets qrs WHERE qrs.course = :course')->setParameter('course', $course)->getResult();
         $selectedTag = $this->getRequest()->get('tag');
         $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
+        $selectedSortDirection = $this->getRequest()->get('sortDir', 'ASC');
         $headerFields = array('participantNumber', 'rcount', 'grade',);
-        $redemptions = $this->getRedemptions($course, $user->getPreferredGradingModel(), $selectedTag, $selectedSortField, $headerFields);
+        $redemptions = $this->getRedemptions($course, $user->getPreferredGradingModel(), $selectedTag, $selectedSortField, $selectedSortDirection, $headerFields);
         // Export or render HTML
         if($this->getRequest()->get('export') === 'true') {
             $response = new StreamedResponse(function() use(&$redemptions, &$headerFields) {
@@ -77,6 +78,7 @@ class QRController extends Controller {
                 'selectedTag' => $selectedTag,
                 'selectedGradingModel' => $user->getPreferredGradingModel(),
                 'selectedSortField' => $selectedSortField,
+                'selectedSortDirection' => $selectedSortDirection,
             ));
         }
     }
@@ -87,17 +89,19 @@ class QRController extends Controller {
      */
     public function courseOverview(Course $course, Request $request) {
         $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
+        $selectedSortDirection = $this->getRequest()->get('sortDir', 'ASC');
         $headerFields = array('participantNumber', 'rcount', 'grade',);
-        $redemptions = $this->getRedemptions($course, $course->getUser()->getPreferredGradingModel(), null, $selectedSortField, $headerFields);
+        $redemptions = $this->getRedemptions($course, $course->getUser()->getPreferredGradingModel(), null, $selectedSortField, $selectedSortDirection, $headerFields);
         return $this->render('PixelbonusSiteBundle:QR:course_overview.html.twig', array(
             'course' => $course,
             'redemptions' => $redemptions,
             'selectedSortField' => $selectedSortField,
+            'selectedSortDirection' => $selectedSortDirection,
             'hideGrades' => true,
         ));
     }
 
-    private function getRedemptions(Course $course, $gradingModel, $selectedTag, $selectedSortField, $headerFields) {
+    private function getRedemptions(Course $course, $gradingModel, $selectedTag, $selectedSortField, $selectedSortDirection, $headerFields) {
         // Execute the query for getting the redemptions
         $tagAppendQuery = $selectedTag != null ? ('JOIN qr.tags t WHERE t.id = :tagId AND') : 'WHERE';
         $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr '.$tagAppendQuery.' qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course);
@@ -135,9 +139,13 @@ class QRController extends Controller {
         if(!in_array($selectedSortField, $headerFields)) {
             return new Response('Invalid sort attribute selected');
         }
-        uasort($redemptions, function($a, $b) use($selectedSortField) {
+        uasort($redemptions, function($a, $b) use($selectedSortField, $selectedSortDirection) {
             if($a[$selectedSortField] == $b[$selectedSortField]) { return 0; }
-            if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
+            if($selectedSortDirection == 'ASC') {
+                if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
+            } else {
+                if($a[$selectedSortField] < $b[$selectedSortField]) { return 1; } else { return -1; }
+            }
         });
         return $redemptions;
     }
