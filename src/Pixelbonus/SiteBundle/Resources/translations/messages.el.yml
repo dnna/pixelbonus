@@ -31,7 +31,8 @@ qr:
     qrsets: QR Sets
     grades: Βαθμολογίες
     grading_model: Μοντέλο Βαθμολόγησης
-    reduction: Reduction/Regression(?)
+    curved_grading: Βαθμολόγηση Καμπύλης
+    ranking: Κατάταξη
     grades_export: Εξαγωγή Βαθμολογιών σε CSV
     overview: Επισκόπηση δραστηριότητας (δημόσια)
     new: Νέο QR set
@@ -57,6 +58,7 @@ redemption:
     participantNumber: Αριθμός συμμετέχοντα
     redemptionCount: Αριθμός εξαργυρώσεων
     grade: Βαθμός
+    ranking: Κατάταξη
     submit: Υποβολή
     invalid: Η εξαργύρωση απέτυχε. Παρακαλώ ελέγξτε τον κωδικό.
     already_redeemed: Αυτός ο κωδικός έχει ήδη εξαργυρωθεί.

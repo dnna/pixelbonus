@@ -31,7 +31,8 @@ qr:
     qrsets: QR Sets
     grades: Grades
     grading_model: Grading Model
-    reduction: Reduction/Regression(?)
+    curved_grading: Curved Grading
+    ranking: Ranking
     grades_export: Export Grades to CSV
     overview: Public activity overview
     new: New QR set
@@ -57,6 +58,7 @@ redemption:
     participantNumber: Student identifier
     redemptionCount: Redemptions count
     grade: Grade
+    ranking: Ranking
     submit: Submit
     invalid: Redemption failed. Please re-check the code.
     already_redeemed: This code has already been redeemed.

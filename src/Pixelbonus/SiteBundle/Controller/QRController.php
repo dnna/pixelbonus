@@ -101,19 +101,32 @@ class QRController extends Controller {
         $tagAppendQuery = $selectedTag != null ? ('JOIN qr.tags t WHERE t.id = :tagId AND') : 'WHERE';
         $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr '.$tagAppendQuery.' qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course);
         if($selectedTag != null) { $redemptions = $redemptions->setParameter('tagId', $selectedTag)->getResult(); } else { $redemptions = $redemptions->getResult();  }
-        if(count($redemptions) > 0) {
-            $maxRedemptions = max(array_map(function($e) {return (int)$e['rcount'];}, $redemptions));
-        } else {
-            $maxRedemptions = 1;
-        }
+        $participants = count($redemptions);
         // Add the grade based on our model
         $selectedGradingModel = $this->getRequest()->get('model', $gradingModel);
-        if($selectedGradingModel == 'reduction') {
-            $redemptions = array_map(function($e) use ($maxRedemptions) {
-                $e['grade'] = min($e['rcount']/$maxRedemptions*10, 10);
+        $instructor = $course->getUser();
+        if($selectedGradingModel == 'curved_grading') {
+            $redemptionsSum = 0;
+            foreach($redemptions as $curRedemption) {
+                $redemptionsSum = $redemptionsSum + $curRedemption['rcount'];
+            }
+            if($participants > 0) { $redemptionsMean = $redemptionsSum/$participants; } else { $redemptionsMean = 0.1; }
+            $redemptions = array_map(function($e) use ($redemptionsMean, &$instructor) {
+                $e['grade'] = $e['rcount']/$redemptionsMean*$instructor->getGradeMultiplier();
+                if($e['grade'] > $instructor->getMaxGrade()) { $e['grade'] = $instructor->getMaxGrade(); }
+                else if($e['grade'] < $instructor->getMinGrade()) { $e['grade'] = $instructor->getMinGrade(); }
                 $e['grade'] = round($e['grade'], 2);
                 return $e;
             }, $redemptions);
+        } else if($selectedGradingModel == 'ranking') {
+            // Ranking algo
+            usort($redemptions, function($a, $b) {
+                if($a['rcount'] == $b['rcount']) { return 0; }
+                if($a['rcount'] < $b['rcount']) { return 1; } else { return -1; }
+            });
+            foreach($redemptions as $i => &$curRedemption) {
+                $curRedemption['grade'] = $i + 1;
+            }
         } else {
             return new Response('Invalid grading model selected');
         }

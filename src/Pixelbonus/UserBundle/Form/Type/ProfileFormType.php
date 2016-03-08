@@ -12,8 +12,12 @@ class ProfileFormType extends BaseType
         parent::buildForm($builder, $options);
         $builder
             ->add('preferredGradingModel', 'choice', array('required' => true, 'choices' => array(
-                'reduction' => 'reduction'
+                'curved_grading' => 'qr.curved_grading',
+                'ranking' => 'qr.ranking',
             )))
+            ->add('gradeMultiplier')
+            ->add('maxGrade')
+            ->add('minGrade')
             ->remove('current_password');
         ;
     }
