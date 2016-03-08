@@ -15,9 +15,9 @@ class ProfileFormType extends BaseType
                 'curved_grading' => 'qr.curved_grading',
                 'ranking' => 'qr.ranking',
             )))
-            ->add('gradeMultiplier')
-            ->add('maxGrade')
-            ->add('minGrade')
+            ->add('gradeMultiplier', null, array('attr' => array('placeholder' => 'Grade Multiplier')))
+            ->add('maxGrade', null, array('attr' => array('placeholder' => 'Max Grade')))
+            ->add('minGrade', null, array('attr' => array('placeholder' => 'Min Grade')))
             ->remove('current_password');
         ;
     }

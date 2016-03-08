@@ -20,7 +20,7 @@ profile:
         username: 'Όνομα Χρήστη'
         email: Email
     edit:
-        submit: Ενημέρωσε
+        submit: Αποθήκευση
     flash:
         updated: 'Το προφίλ ενημερώθηκε επιτυχώς'
 change_password:
