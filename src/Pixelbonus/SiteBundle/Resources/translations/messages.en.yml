@@ -40,7 +40,7 @@ qr:
     redeemedAt: Redeemed At
     redemptions: Redemptions
     view: Details
-    print: Print
+    print: Generate New
     delete: Delete
     export: Export
     import: Import activity from file
