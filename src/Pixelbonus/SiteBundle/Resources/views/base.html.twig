@@ -116,6 +116,13 @@
     <script src="{{asset('js/freelancer.js')}}"></script>
     <script src="{{asset('js/select2.full.min.js')}}"></script>
 
+    <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.label-tooltip').parent().find('label').append($('.label-tooltip').detach());
+    });
+    </script>
+
     {% block javascripts %}{% endblock %}
 
 </body>

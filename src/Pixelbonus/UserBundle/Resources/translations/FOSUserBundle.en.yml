@@ -22,6 +22,7 @@ profile:
         username: Username
         email: Email
     edit:
+        grade_multiplier_help:  π.χ. με πολλαπλασιαστή 9, ένας εκπαιδευόμενος με αριθμό εξαργυρώσεων ακριβώς στον μέσο όρο της δραστηριότητας θα λάβει βαθμό 9
         submit: Update
     flash:
         updated: 'The profile has been updated'

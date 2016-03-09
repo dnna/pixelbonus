@@ -1,9 +1,9 @@
-{% extends 'form_div_layout.html.twig' %}
+{% extends 'bootstrap_3_layout.html.twig' %}
 
 {% block form_row %}
 <div class="row control-group">
     <div class="form-group col-xs-12 floating-label-form-group controls">
-        {{ form_label(form) }}
+        {{ form_label(form) }} {% if attr.help is defined %}<span class="label-tooltip">&nbsp;&nbsp;<a href="#" data-toggle="tooltip" title="{{attr.help|trans({}, translation_domain)}}"><strong>?</strong></a></span>{% endif %}
         {{ form_errors(form) }}
         {{ form_widget(form) }}
         <p class="help-block text-danger"></p>

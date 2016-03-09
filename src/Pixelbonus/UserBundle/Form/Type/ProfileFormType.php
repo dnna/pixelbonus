@@ -15,9 +15,9 @@ class ProfileFormType extends BaseType
                 'curved_grading' => 'qr.curved_grading',
                 'ranking' => 'qr.ranking',
             )))
-            ->add('gradeMultiplier', null, array('attr' => array('placeholder' => 'Grade Multiplier')))
-            ->add('maxGrade', null, array('attr' => array('placeholder' => 'Max Grade')))
-            ->add('minGrade', null, array('attr' => array('placeholder' => 'Min Grade')))
+            ->add('gradeMultiplier', null, array('translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'Grade Multiplier', 'help' => 'profile.edit.grade_multiplier_help')))
+            ->add('maxGrade', null, array('translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'Max Grade')))
+            ->add('minGrade', null, array('translation_domain' => 'FOSUserBundle', 'attr' => array('placeholder' => 'Min Grade')))
             ->remove('current_password');
         ;
     }
