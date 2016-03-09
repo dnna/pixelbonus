@@ -119,7 +119,9 @@
     <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
-        $('.label-tooltip').parent().find('label').append($('.label-tooltip').detach());
+        $('.label-tooltip').each(function() {
+            $(this).parent().find('label').append($(this).detach());
+        });
     });
     </script>
 
