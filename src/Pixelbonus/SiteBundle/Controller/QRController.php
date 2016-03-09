@@ -129,8 +129,13 @@ class QRController extends Controller {
                 if($a['rcount'] == $b['rcount']) { return 0; }
                 if($a['rcount'] < $b['rcount']) { return 1; } else { return -1; }
             });
-            foreach($redemptions as $i => &$curRedemption) {
-                $curRedemption['grade'] = $i + 1;
+            $curRcount = 0;
+            $i = 1;
+            foreach($redemptions as &$curRedemption) {
+                if($curRedemption['rcount'] != $curRcount) {
+                    $curRedemption['grade'] = $i++;
+                    $curRcount = $curRedemption['rcount'];
+                }
             }
         } else {
             return new Response('Invalid grading model selected');
