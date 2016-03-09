@@ -33,8 +33,8 @@ qr:
     grading_model: Μοντέλο Βαθμολόγησης
     curved_grading: Βαθμολόγηση Καμπύλης
     ranking: Κατάταξη
-    prefered_grading_model: Μοντελο Βαθμολογησης
-    prefered_grading_model_help: Στο μοντέλο "Βαθμολόγησης Καμπύλης" ο βαθμός προκύπτει με βάση το μέσο της κατανομής των εξαργυρώσεων. Στο μοντέλο "Κατάταξης" βαθμό αποτελεί η κατάταξη του εκπαιδευόμενου σε σχέση με τους υπόλοιπους.
+    prefered_grading_model: Μοντέλο Βαθμολόγησης
+    prefered_grading_model_help: Στο μοντέλο &quot;Βαθμολόγησης Καμπύλης&quot; ο βαθμός προκύπτει με βάση το μέσο της κατανομής των εξαργυρώσεων.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Στο μοντέλο &quot;Κατάταξης&quot;, βαθμό αποτελεί η κατάταξη του εκπαιδευόμενου σε σχέση με τους υπόλοιπους.
     grades_export: Εξαγωγή Βαθμολογιών σε CSV
     overview: Επισκόπηση δραστηριότητας (δημόσια)
     new: Νέο QR set

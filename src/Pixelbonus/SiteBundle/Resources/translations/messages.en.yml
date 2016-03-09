@@ -34,7 +34,7 @@ qr:
     curved_grading: Curved Grading
     ranking: Ranking
     prefered_grading_model: Grading Model
-    prefered_grading_model_help: In the "Curved Grading" model grades are based on the mean of redemptions distribution. In the "Ranking" model a participant's grade is his rank compared to other participants.
+    prefered_grading_model_help: In the &quot;Curved Grading&quot; model grades are based on the mean of redemptions distribution.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In the &quot;Ranking&quot; model a participant's grade is his rank compared to other participants.
     grades_export: Export Grades to CSV
     overview: Public activity overview
     new: New QR set
