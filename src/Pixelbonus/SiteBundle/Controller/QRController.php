@@ -130,11 +130,14 @@ class QRController extends Controller {
                 if($a['rcount'] < $b['rcount']) { return 1; } else { return -1; }
             });
             $curRcount = 0;
-            $i = 1;
+            $i = 0;
             foreach($redemptions as &$curRedemption) {
                 if($curRedemption['rcount'] != $curRcount) {
-                    $curRedemption['grade'] = $i++;
+                    $i++;
+                    $curRedemption['grade'] = $i;
                     $curRcount = $curRedemption['rcount'];
+                } else {
+                    $curRedemption['grade'] = $i;
                 }
             }
         } else {
