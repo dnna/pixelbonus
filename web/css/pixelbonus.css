@@ -33,6 +33,10 @@ section h2, header h2 {
 section {
     padding: 112px 0;
 }
+
+.tooltip-inner{
+    text-align: left;
+}
 /* End common */
 
 /* Header */
