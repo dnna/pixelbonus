@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\LockHandler;
 
 class GenerateQrCodesCommand extends ContainerAwareCommand
 {
@@ -21,6 +22,13 @@ class GenerateQrCodesCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $lock = new LockHandler('pixelbonus:generateqr');
+        if (!$lock->lock()) {
+            $output->writeln('The command is already running in another process.');
+
+            return 0;
+        }
+
         $qrRequests = $this->getContainer()->get('doctrine')->getRepository('Pixelbonus\SiteBundle\Entity\QrRequest')->findBy(array(
             'status' => QrRequest::STATUS_PENDING,
         ));
@@ -40,5 +48,7 @@ class GenerateQrCodesCommand extends ContainerAwareCommand
             $this->getContainer()->get('doctrine')->getManager()->persist($curQrRequest);
             $this->getContainer()->get('doctrine')->getManager()->flush($curQrRequest);
         }
+
+        $lock->release();
     }
 }
