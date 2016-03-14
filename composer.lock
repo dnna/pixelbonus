@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "74edf835efc4fd7718d6fb3b96174ec9",
-    "content-hash": "93d9a3b511401a3c001da1fcdb64381f",
+    "hash": "3a94f4d35608f0ee63ce3103d201b799",
+    "content-hash": "e4eb40db19405a6a34ba1a431df94686",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -17,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/868e05be3a9f25ba6424c2dd4849567f50715003",
+                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/5617922041771893fb0e9593b67958e411604c09",
                 "reference": "868e05be3a9f25ba6424c2dd4849567f50715003",
                 "shasum": ""
             },
@@ -162,73 +162,6 @@
             "time": "2014-01-06 23:32:02"
         },
         {
-            "name": "dizda/cloud-backup-bundle",
-            "version": "3.2.4",
-            "target-dir": "Dizda/CloudBackupBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dizda/CloudBackupBundle.git",
-                "reference": "26c7e9c99130e3ffa1edf5947407ee3d9a88c66f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dizda/CloudBackupBundle/zipball/26c7e9c99130e3ffa1edf5947407ee3d9a88c66f",
-                "reference": "26c7e9c99130e3ffa1edf5947407ee3d9a88c66f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.1",
-                "symfony/monolog-bundle": "~2.3"
-            },
-            "require-dev": {
-                "google/apiclient": "@dev",
-                "symfony/symfony": "^2.3.25"
-            },
-            "suggest": {
-                "dropbox/dropbox-sdk": "To enable upload to Dropbox",
-                "happyr/google-site-authenticator-bundle": "To enable upload dumps on google drive.",
-                "jongotlin/deadmanssnitch-bundle": "To report your successful backups to deadmanssnitch.com",
-                "knplabs/knp-gaufrette-bundle": "To use Gaufrette as a cloud storage",
-                "matthiasplappert/cloudapp-api": "To support upload to CloudApp"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Dizda\\CloudBackupBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan Dizdarevic",
-                    "email": "dizzda@gmail.com",
-                    "homepage": "https://twitter.com/dizzda"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/dizda/CloudBackupBundle/graphs/contributors"
-                }
-            ],
-            "description": "Be able to backup your database(s) and upload it to the cloud (Dropbox, CloudApp, GoogleDrive, etc.)",
-            "homepage": "https://github.com/dizda/CloudBackupBundle",
-            "keywords": [
-                "GDrive",
-                "GoogleDrive",
-                "cloudapp",
-                "database",
-                "dropbox",
-                "dump",
-                "mongodb",
-                "mysql",
-                "symfony"
-            ],
-            "time": "2016-01-25 11:30:48"
-        },
-        {
             "name": "doctrine/annotations",
             "version": "dev-master",
             "source": {
@@ -238,7 +171,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/07a9af2d4de5f9ef0bf2d9ae94421e5fc50d7859",
                 "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
                 "shasum": ""
             },
@@ -722,7 +655,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/e1c618b2333fb6fe8b0a1f6ba905b6bfad7c83d1",
+                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/7acef60c70347f8e2f4fb278c54eb321e75b9055",
                 "reference": "18c600a9b82f6454d2e81ca4957cdd56a1cf3504",
                 "shasum": ""
             },
@@ -1170,7 +1103,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/24f27761e95a8cbdbd5684d7fd2891f6bbd17721",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/d22a1f4d33de306ab562025a379f2b973a4de1b7",
                 "reference": "ed99e9a7cbbf928047ec8959520d995db948d10b",
                 "shasum": ""
             },
@@ -1390,6 +1323,56 @@
                 "uploadable"
             ],
             "time": "2015-03-26 20:58:50"
+        },
+        {
+            "name": "iio/libmergepdf",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hanneskod/libmergepdf.git",
+                "reference": "b6042db24d66a49f3ecd261395ec918f00763e9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hanneskod/libmergepdf/zipball/b6042db24d66a49f3ecd261395ec918f00763e9c",
+                "reference": "b6042db24d66a49f3ecd261395ec918f00763e9c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "setasign/fpdi-fpdf": "^1.6"
+            },
+            "require-dev": {
+                "hanneskod/readme-tester": "dev-master",
+                "symfony/finder": "2.*"
+            },
+            "suggest": {
+                "symfony/finder": "Bulk add files using finder."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "iio\\libmergepdf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Hannes Forsgård",
+                    "email": "hannes.forsgard@gmail.com"
+                }
+            ],
+            "description": "Library for merging multiple PDFs",
+            "homepage": "https://github.com/hanneskod/libmergepdf",
+            "keywords": [
+                "concatenate",
+                "merge",
+                "pdf"
+            ],
+            "time": "2016-03-02 20:38:15"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2225,7 +2208,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fb314292abcbfb61782e065fb9b13d5302ecc9e3",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a9ccae25cbb5c0af6f2a549e4cc3ee6628c253ab",
                 "reference": "79817af0de141a2278e54acd01fb2532a7548516",
                 "shasum": ""
             },
@@ -2664,7 +2647,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/bf6be511f4f66d368baeb2cab617203d73cccf4e",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/a75f351c8e7cc99f1931796c0a78d551178c3bdf",
                 "reference": "bf6be511f4f66d368baeb2cab617203d73cccf4e",
                 "shasum": ""
             },
@@ -2759,6 +2742,138 @@
             ],
             "description": "A security checker for your composer.lock",
             "time": "2015-11-07 08:07:40"
+        },
+        {
+            "name": "setasign/fpdf",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Setasign/FPDF.git",
+                "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/2c68c9e6c034ac3187d25968790139a73184cdb1",
+                "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fpdf.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "no usage restriction"
+            ],
+            "authors": [
+                {
+                    "name": "Olivier Plathey",
+                    "email": "oliver@fpdf.org",
+                    "homepage": "http://fpdf.org/"
+                }
+            ],
+            "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
+            "homepage": "http://www.fpdf.org",
+            "keywords": [
+                "fpdf",
+                "pdf"
+            ],
+            "time": "2016-01-01 17:47:15"
+        },
+        {
+            "name": "setasign/fpdi",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Setasign/FPDI.git",
+                "reference": "5b899b2b41463bf261aa69840fd30b50950a500c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/5b899b2b41463bf261aa69840fd30b50950a500c",
+                "reference": "5b899b2b41463bf261aa69840fd30b50950a500c",
+                "shasum": ""
+            },
+            "suggest": {
+                "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnickcom/tcpdf\" as an alternative there's no fixed dependency configured.",
+                "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
+                "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF."
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "filters/",
+                    "fpdi.php",
+                    "fpdf_tpl.php",
+                    "fpdi_pdf_parser.php",
+                    "pdf_context.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Slabon",
+                    "email": "jan.slabon@setasign.com",
+                    "homepage": "https://www.setasign.com"
+                }
+            ],
+            "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF. Because it is also possible to use FPDI with TCPDF, there are no fixed dependencies defined. Please see suggestions for packages which evaluates the dependencies automatically.",
+            "homepage": "https://www.setasign.com/fpdi",
+            "keywords": [
+                "fpdf",
+                "fpdi",
+                "pdf"
+            ],
+            "time": "2015-11-30 10:53:14"
+        },
+        {
+            "name": "setasign/fpdi-fpdf",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Setasign/FPDI-FPDF.git",
+                "reference": "212a0d58c656b56925fd44669619a69dac85ac2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Setasign/FPDI-FPDF/zipball/212a0d58c656b56925fd44669619a69dac85ac2c",
+                "reference": "212a0d58c656b56925fd44669619a69dac85ac2c",
+                "shasum": ""
+            },
+            "require": {
+                "setasign/fpdf": "1.8.*",
+                "setasign/fpdi": "1.6.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fpdi_bridge.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Slabon",
+                    "email": "jan.slabon@setasign.com",
+                    "homepage": "https://www.setasign.com"
+                }
+            ],
+            "description": "Kind of metadata package for dependencies of the latest versions of FPDI and FPDF.",
+            "homepage": "https://www.setasign.com/fpdi",
+            "keywords": [
+                "fpdf",
+                "fpdi",
+                "pdf"
+            ],
+            "time": "2015-11-30 11:10:35"
         },
         {
             "name": "stof/doctrine-extensions-bundle",

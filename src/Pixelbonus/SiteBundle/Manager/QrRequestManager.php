@@ -4,6 +4,8 @@ namespace Pixelbonus\SiteBundle\Manager;
 use Pixelbonus\SiteBundle\Entity\QrCode;
 use Pixelbonus\SiteBundle\Entity\QrRequest;
 
+use iio\libmergepdf\Merger;
+
 class QrRequestManager {
     protected $doctrine;
     protected $templating;
@@ -53,11 +55,15 @@ class QrRequestManager {
         }
         $this->doctrine->getManager()->persist($qrset);
         $this->doctrine->getManager()->flush($toFlush);
-        $html = $this->templating->render('PixelbonusSiteBundle:QR:qr_template.html.twig', array(
-            'qrImages' => $qrImages,
-        ));
-        $pdf = $this->snappyPdf->getOutputFromHtml($html);
-        file_put_contents($this->appRoot.DIRECTORY_SEPARATOR.'qruploads'.DIRECTORY_SEPARATOR.'qr_'.$qrRequest->getId().'.pdf', $pdf);
+        $m = new Merger();
+        foreach(array_chunk($qrImages, 306) as $curQrImages) {
+            $html = $this->templating->render('PixelbonusSiteBundle:QR:qr_template.html.twig', array(
+                'qrImages' => $curQrImages,
+            ));
+            $pdf = $this->snappyPdf->getOutputFromHtml($html);
+            $m->addRaw($pdf);
+        }
+        file_put_contents($this->appRoot.DIRECTORY_SEPARATOR.'qruploads'.DIRECTORY_SEPARATOR.'qr_'.$qrRequest->getId().'.pdf', $m->merge());
     }
 
     public function getPdf(QrRequest $qrRequest) {

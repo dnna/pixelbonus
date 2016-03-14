@@ -36,7 +36,8 @@
         "ruudk/capifony-tools": "dev-master",
         "t0k4rt/phpqrcode": "dev-composer",
         "christian-riesen/base32": "1.2.*",
-        "nelmio/api-doc-bundle": "2.4.*"
+        "nelmio/api-doc-bundle": "2.4.*",
+        "iio/libmergepdf": "~3.0"
     },
     "scripts": {
         "post-install-cmd": [
