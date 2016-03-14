@@ -60,6 +60,10 @@ class User extends BaseUser
      * @ORM\Column(name="min_grade", type="integer", nullable=false)
      */
     protected $minGrade = 10;
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $locale = 'el';
 
     public function __construct() {
         parent::__construct();
@@ -106,6 +110,10 @@ class User extends BaseUser
         return $this->minGrade;
     }
 
+    function getLocale() {
+        return $this->locale;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
@@ -144,5 +152,9 @@ class User extends BaseUser
 
     function setMinGrade($minGrade) {
         $this->minGrade = $minGrade;
+    }
+
+    function setLocale($locale) {
+        $this->locale = $locale;
     }
 }

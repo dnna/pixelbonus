@@ -47,7 +47,7 @@ qr:
     delete: Delete
     export: Export
     import: Import activity from file
-    download_text: Download will start soon. If the download dialog does not open in the next few seconds click <a id="qr-download-link" href="%link%">here</a>.
+    download_text: Your codes are being generated. You will receive an email within the next 2-5 minutes with instructions on how to download them.
     return_course: Return to the activity
     form:
         tags: Tags
@@ -66,3 +66,8 @@ redemption:
     already_redeemed: This code has already been redeemed.
     success: Success!
     back: Return
+
+email:
+    qr:
+        subject: "Pixelbonus: Your codes are ready"
+        body: To download your codes please visit %link%

@@ -9,11 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Pixelbonus\SiteBundle\Entity\Course;
 use Pixelbonus\SiteBundle\Form\Type\CourseType;
 
 use Pixelbonus\SiteBundle\Entity\QrSet;
+use Pixelbonus\SiteBundle\Entity\QrRequest;
 use Pixelbonus\SiteBundle\Entity\QrCode;
 use Pixelbonus\SiteBundle\Entity\Tag;
 use Pixelbonus\SiteBundle\Form\Type\QrSetType;
@@ -227,6 +229,11 @@ class QRController extends Controller {
      */
     public function downloadQr(QrSet $qrset) {
         if($this->getRequest()->get('quantity') == null) { echo 'Quantity is required'; die(); }
+        $qrRequest = new QrRequest();
+        $qrRequest->setQrSet($qrset);
+        $qrRequest->setQuantity($this->getRequest()->get('quantity'));
+        $this->container->get('doctrine')->getManager()->persist($qrRequest);
+        $this->container->get('doctrine')->getManager()->flush($qrRequest);
         return $this->render('PixelbonusSiteBundle:QR:download.html.twig', array(
             'qrset' => $qrset,
             'quantity' => $this->getRequest()->get('quantity'),
@@ -234,49 +241,17 @@ class QRController extends Controller {
     }
 
     /**
-     * @Route("/qrset/{qrset}/generate", name="generate_qr")
+     * @Route("/qrrequest/{qrrequest}/download", name="download_generated_qr")
      * @Secure(roles="ROLE_USER")
      */
-    public function generateQr(QrSet $qrset) {
-        if($this->getRequest()->get('quantity') == null) { echo 'Quantity is required'; die(); }
-        $qrImages = array();
-        $toFlush = array($qrset);
-        for($i = $qrset->getQrcodes()->count(); $i < $qrset->getQrcodes()->count()+(int)$this->getRequest()->get('quantity'); $i++) {
-            // Create the QR Entity
-            $qrCode = new QrCode();
-            $qrCode->setQrset($qrset);
-            $hash = hash_hmac('sha1', $qrset->getId().'_'.$i, $qrset->getCourse()->getUser()->getPassword());
-            $qrCode->setCode($hash);
-            $this->container->get('doctrine')->getManager()->persist($qrCode);
-            $toFlush[] = $qrCode;
-
-            // Generate QR image based on the created entity
-            $qrImage = array();
-            $fileName = tempnam($this->container->getParameter("kernel.cache_dir"), 'qrimg');
-            $link = $this->container->get('router')->generate('redeem', array('hash' => $qrCode->getCode()), true);
-            \QRcode::svg($link, $fileName);
-            $qrImage['link'] = $qrCode->getCode();
-            $qrImage['svg'] = file_get_contents($fileName);
-            $xml = simplexml_load_string($qrImage['svg']);
-            $xml['width'] = 135;
-            $xml['height'] = 135;
-            $qrImage['svg'] = $xml->asXML();
-            $qrImages[] = $qrImage;
-        }
-        $this->container->get('doctrine')->getManager()->persist($qrset);
-        $this->container->get('doctrine')->getManager()->flush($toFlush);
-        $html = $this->container->get('templating')->render('PixelbonusSiteBundle:QR:qr_template.html.twig', array(
-            'qrImages' => $qrImages,
+    public function downloadGeneratedQr(QrRequest $qrrequest) {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if($qrrequest->getQrSet()->getCourse()->getUser() != $user) { throw new AccessDeniedException('Qr request does not belong to this user'); }
+        $pdf = $this->container->get('pixelbonus.qrrequest.manager')->getPdf($qrrequest);
+        return new Response($pdf, 200, array(
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => sprintf('attachment;filename="%s.pdf"', 'qr'),
         ));
-        if($this->getRequest()->get('html') == 'true') {
-            return new Response($html);
-        } else {
-            $pdf = $this->container->get('knp_snappy.pdf')->getOutputFromHtml($html);
-            return new Response($pdf, 200, array(
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => sprintf('attachment;filename="%s.pdf"', 'qr'),
-            ));
-        }
     }
 
     /**
