@@ -3,12 +3,8 @@
 {% block content %}
 <section>
     <div class="container">
-        <p>{{'qr.download_text'|trans({'%link%': path('generate_qr', {'qrset': qrset.id, 'quantity': quantity})})|raw}}</p>
+        <p>{{'qr.download_text'|trans|raw}}</p>
         <p><a href="{{path('course', {'course': qrset.course.id})}}">{{'qr.return_course'|trans}}</a></p>
     </div>
 </section>
-{% endblock %}
-
-{% block javascripts %}
-    <script src="{{asset('js/pages/download.js')}}"></script>
 {% endblock %}

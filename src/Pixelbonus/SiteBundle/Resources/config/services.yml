@@ -1,1 +1,18 @@
-services: ~
+services:
+    pixelbonus.qrrequest.manager:
+        class: Pixelbonus\SiteBundle\Manager\QrRequestManager
+        arguments:
+            - '@doctrine'
+            - '@templating'
+            - '@knp_snappy.pdf'
+            - '@router'
+            - '%host%'
+            - '%kernel.root_dir%'
+            - '%kernel.cache_dir%'
+    pixelbonus.localelistener:
+      class: Pixelbonus\SiteBundle\EventListener\LocaleListener
+      arguments:
+          - "@security.context"
+          - "@doctrine.orm.entity_manager"
+      tags:
+        - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

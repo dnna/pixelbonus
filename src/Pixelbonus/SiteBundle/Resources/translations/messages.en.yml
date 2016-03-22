@@ -31,7 +31,10 @@ qr:
     qrsets: QR Sets
     grades: Grades
     grading_model: Grading Model
-    reduction: Reduction/Regression(?)
+    curved_grading: Curved Grading
+    ranking: Ranking
+    prefered_grading_model: Grading Model
+    prefered_grading_model_help: In the &quot;Curved Grading&quot; model grades are based on the mean of redemptions distribution. In the &quot;Ranking&quot; model a participant's grade is his rank compared to other participants.
     grades_export: Export Grades to CSV
     overview: Public activity overview
     new: New QR set
@@ -40,11 +43,11 @@ qr:
     redeemedAt: Redeemed At
     redemptions: Redemptions
     view: Details
-    print: Print
+    print: Generate New
     delete: Delete
     export: Export
     import: Import activity from file
-    download_text: Download will start soon. If the download dialog does not open in the next few seconds click <a id="qr-download-link" href="%link%">here</a>.
+    download_text: Your codes are being generated. You will receive an email within the next 2-5 minutes with instructions on how to download them.
     return_course: Return to the activity
     form:
         tags: Tags
@@ -57,8 +60,14 @@ redemption:
     participantNumber: Student identifier
     redemptionCount: Redemptions count
     grade: Grade
+    ranking: Ranking
     submit: Submit
     invalid: Redemption failed. Please re-check the code.
     already_redeemed: This code has already been redeemed.
     success: Success!
     back: Return
+
+email:
+    qr:
+        subject: "Pixelbonus: Your codes are ready"
+        body: To download your codes please visit %link%

@@ -22,6 +22,10 @@ profile:
         username: Username
         email: Email
     edit:
+        max_grade: Max Grade
+        min_grade: Min Grade
+        grade_multiplier: Grade Multiplier
+        grade_multiplier_help: Grade multiplier determines the grade a participant receives if their number of redemptions is at the mean of the redemptions distribution for this activity
         submit: Update
     flash:
         updated: 'The profile has been updated'

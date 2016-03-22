@@ -1,5 +1,24 @@
 {% extends 'PixelbonusSiteBundle::base.html.twig' %}
 
+{% macro sortLink(field, selectedSortField, selectedSortDirection, app) %}
+    {% if selectedSortField != field %}
+        {% set newDir = 'ASC' %}
+    {% elseif selectedSortDirection == 'ASC' %}
+        {% set newDir = 'DESC' %}
+    {% elseif selectedSortDirection == 'DESC' %}
+        {% set newDir = 'ASC' %}
+    {% endif %}
+    {{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': field, 'sortDir': newDir}))}}
+{% endmacro %}
+
+{% macro sortArrow(field, selectedSortField, selectedSortDirection, app) %}
+    {% if selectedSortField == field %}
+        {% if selectedSortDirection == 'ASC' %}&#x25B2;{% else %}&#x25BC;{% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as selfMacros %}
+
 {% block content %}
 <section>
     <div class="container">
@@ -30,7 +49,7 @@
             <div class="col-lg-2">
             {{'qr.grading_model'|trans}}:
             </div>
-            <div class="col-lg-2"><a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'course': course.id, 'model': 'reduction'}))}}" {% if selectedGradingModel == 'reduction' %}style="text-decoration: underline;"{% endif %}>{{'qr.reduction'|trans}}</a></div>
+            <div class="col-lg-2"><a href="{{path('course_grades', app.request.get('_route_params')|merge(app.request.query.all())|merge({'course': course.id, 'model': 'curved_grading'}))}}" {% if selectedGradingModel == 'curved_grading' %}style="text-decoration: underline;"{% endif %}>{{'qr.curved_grading'|trans}}</a></div>
         </div>#}
         <hr />
         {% endblock %}
@@ -39,9 +58,9 @@
                 <h3 style="margin-top: 0px; margin-bottom: 25px;">{{course.name}}</h3>
                 <table class="table table-bordered grades-table">
                     <tr>
-                        <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'participantNumber'}))}}" {% if selectedSortField == 'participantNumber' %}style="text-decoration: underline;"{% endif %}>{{'redemption.participantNumber'|trans}}</a></th>
-                        <th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'rcount'}))}}" {% if selectedSortField == 'rcount' %}style="text-decoration: underline;"{% endif %}>{{'redemption.redemptionCount'|trans}}</a></th>
-                        {% if hideGrades is not defined or hideGrades != true %}<th><a href="{{path(app.request.get('_route'), app.request.get('_route_params')|merge(app.request.query.all())|merge({'sortBy': 'grade'}))}}" {% if selectedSortField == 'grade' %}style="text-decoration: underline;"{% endif %}>{{'redemption.grade'|trans}}</a></th>{% endif %}
+                        <th><a href="{{selfMacros.sortLink('participantNumber', selectedSortField, selectedSortDirection, app)}}" {% if selectedSortField == 'participantNumber' %}style="text-decoration: underline;"{% endif %}>{{'redemption.participantNumber'|trans}} {{selfMacros.sortArrow('participantNumber', selectedSortField, selectedSortDirection, app)}}</a></th>
+                        <th><a href="{{selfMacros.sortLink('rcount', selectedSortField, selectedSortDirection, app)}}" {% if selectedSortField == 'rcount' %}style="text-decoration: underline;"{% endif %}>{{'redemption.redemptionCount'|trans}} {{selfMacros.sortArrow('rcount', selectedSortField, selectedSortDirection, app)}}</a></th>
+                        {% if hideGrades is not defined or hideGrades != true %}<th><a href="{{selfMacros.sortLink('grade', selectedSortField, selectedSortDirection, app)}}" {% if selectedSortField == 'grade' %}style="text-decoration: underline;"{% endif %}>{% if selectedGradingModel is defined and selectedGradingModel == 'ranking' %}{{'redemption.ranking'|trans}}{% else %}{{'redemption.grade'|trans}}{% endif %} {{selfMacros.sortArrow('grade', selectedSortField, selectedSortDirection, app)}}</a></th>{% endif %}
                     </tr>
                     {% for redemption in redemptions %}
                         <tr>

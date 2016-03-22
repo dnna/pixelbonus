@@ -24,6 +24,11 @@ class QrCode {
      * @ORM\JoinColumn(name="qrset_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $qrset;
+    /**
+     * @ORM\ManyToOne(targetEntity="Pixelbonus\SiteBundle\Entity\QrRequest", inversedBy="qrcodes", fetch="EAGER")
+     * @ORM\JoinColumn(name="qrrequest_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $qrrequest;
      /**
      * @ORM\OneToMany(targetEntity="Pixelbonus\SiteBundle\Entity\Redemption", mappedBy="qrcode")
      * @ORM\OrderBy({"participantNumber" = "ASC"})
@@ -42,6 +47,10 @@ class QrCode {
         return $this->qrset;
     }
 
+    function getQrrequest() {
+        return $this->qrrequest;
+    }
+
     function getRedemptions() {
         return $this->redemptions;
     }
@@ -52,6 +61,10 @@ class QrCode {
 
     function setQrset($qrset) {
         $this->qrset = $qrset;
+    }
+
+    function setQrrequest($qrrequest) {
+        $this->qrrequest = $qrrequest;
     }
 
     function setRedemptions($redemptions) {

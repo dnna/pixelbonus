@@ -31,7 +31,10 @@ qr:
     qrsets: QR Sets
     grades: Βαθμολογίες
     grading_model: Μοντέλο Βαθμολόγησης
-    reduction: Reduction/Regression(?)
+    curved_grading: Βαθμολόγηση Καμπύλης
+    ranking: Κατάταξη
+    prefered_grading_model: Μοντέλο Βαθμολόγησης
+    prefered_grading_model_help: Στο μοντέλο &quot;Βαθμολόγησης Καμπύλης&quot; ο βαθμός προκύπτει με βάση το μέσο της κατανομής των εξαργυρώσεων.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Στο μοντέλο &quot;Κατάταξης&quot;, βαθμό αποτελεί η κατάταξη του εκπαιδευόμενου σε σχέση με τους υπόλοιπους.
     grades_export: Εξαγωγή Βαθμολογιών σε CSV
     overview: Επισκόπηση δραστηριότητας (δημόσια)
     new: Νέο QR set
@@ -40,11 +43,11 @@ qr:
     redeemedAt: Εξαργυρώθηκε
     redemptions: Εξαργυρώσεις κωδικών
     view: Προβολή
-    print: Εκτύπωση
+    print: Δημιουργία Νέων
     delete: Διαγραφή
     export: Εξαγωγή
     import: Εισαγωγή δραστηριότητας από αρχείο
-    download_text: Η λήψη θα ξεκινήσει μέσα στα επόμενα δευτερόλεπτα. Διαφορετικά πατήστε <a id="qr-download-link" href="%link%">εδώ</a>.
+    download_text: Οι κωδικοί σας δημιουργούνται. Μέσα στα επόμενα 2-5 λεπτά θα λάβετε ένα email με οδηγίες για τη λήψη τους.
     return_course: Επιστροφή στη δραστηριότητα
     form:
         tags: Tags
@@ -57,8 +60,14 @@ redemption:
     participantNumber: Αριθμός συμμετέχοντα
     redemptionCount: Αριθμός εξαργυρώσεων
     grade: Βαθμός
+    ranking: Κατάταξη
     submit: Υποβολή
     invalid: Η εξαργύρωση απέτυχε. Παρακαλώ ελέγξτε τον κωδικό.
     already_redeemed: Αυτός ο κωδικός έχει ήδη εξαργυρωθεί.
     success: Επιτυχής εξαργύρωση!
     back: Επιστροφή
+
+email:
+    qr:
+        subject: "Pixelbonus: Οι κωδικοί σας είναι έτοιμοι"
+        body: Για να κατεβάσετε τους κωδικούς σας επισκεφθείτε τον σύνδεσμο %link%

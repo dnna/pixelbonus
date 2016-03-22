@@ -9,11 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Pixelbonus\SiteBundle\Entity\Course;
 use Pixelbonus\SiteBundle\Form\Type\CourseType;
 
 use Pixelbonus\SiteBundle\Entity\QrSet;
+use Pixelbonus\SiteBundle\Entity\QrRequest;
 use Pixelbonus\SiteBundle\Entity\QrCode;
 use Pixelbonus\SiteBundle\Entity\Tag;
 use Pixelbonus\SiteBundle\Form\Type\QrSetType;
@@ -52,8 +54,9 @@ class QRController extends Controller {
         $tags = $this->container->get('doctrine')->getManager()->createQuery('SELECT t FROM Pixelbonus\SiteBundle\Entity\Tag t JOIN t.qrsets qrs WHERE qrs.course = :course')->setParameter('course', $course)->getResult();
         $selectedTag = $this->getRequest()->get('tag');
         $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
+        $selectedSortDirection = $this->getRequest()->get('sortDir', 'ASC');
         $headerFields = array('participantNumber', 'rcount', 'grade',);
-        $redemptions = $this->getRedemptions($course, $user->getPreferredGradingModel(), $selectedTag, $selectedSortField, $headerFields);
+        $redemptions = $this->getRedemptions($course, $user->getPreferredGradingModel(), $selectedTag, $selectedSortField, $selectedSortDirection, $headerFields);
         // Export or render HTML
         if($this->getRequest()->get('export') === 'true') {
             $response = new StreamedResponse(function() use(&$redemptions, &$headerFields) {
@@ -77,6 +80,7 @@ class QRController extends Controller {
                 'selectedTag' => $selectedTag,
                 'selectedGradingModel' => $user->getPreferredGradingModel(),
                 'selectedSortField' => $selectedSortField,
+                'selectedSortDirection' => $selectedSortDirection,
             ));
         }
     }
@@ -87,34 +91,57 @@ class QRController extends Controller {
      */
     public function courseOverview(Course $course, Request $request) {
         $selectedSortField = $this->getRequest()->get('sortBy', 'participantNumber');
+        $selectedSortDirection = $this->getRequest()->get('sortDir', 'ASC');
         $headerFields = array('participantNumber', 'rcount', 'grade',);
-        $redemptions = $this->getRedemptions($course, $course->getUser()->getPreferredGradingModel(), null, $selectedSortField, $headerFields);
+        $redemptions = $this->getRedemptions($course, $course->getUser()->getPreferredGradingModel(), null, $selectedSortField, $selectedSortDirection, $headerFields);
         return $this->render('PixelbonusSiteBundle:QR:course_overview.html.twig', array(
             'course' => $course,
             'redemptions' => $redemptions,
             'selectedSortField' => $selectedSortField,
+            'selectedSortDirection' => $selectedSortDirection,
             'hideGrades' => true,
         ));
     }
 
-    private function getRedemptions(Course $course, $gradingModel, $selectedTag, $selectedSortField, $headerFields) {
+    private function getRedemptions(Course $course, $gradingModel, $selectedTag, $selectedSortField, $selectedSortDirection, $headerFields) {
         // Execute the query for getting the redemptions
         $tagAppendQuery = $selectedTag != null ? ('JOIN qr.tags t WHERE t.id = :tagId AND') : 'WHERE';
         $redemptions = $this->container->get('doctrine')->getManager()->createQuery('SELECT r.participantNumber, COUNT(r) rcount FROM Pixelbonus\SiteBundle\Entity\Redemption r JOIN r.qrcode qrc JOIN qrc.qrset qr '.$tagAppendQuery.' qr.course = :course GROUP BY r.participantNumber')->setParameter('course', $course);
         if($selectedTag != null) { $redemptions = $redemptions->setParameter('tagId', $selectedTag)->getResult(); } else { $redemptions = $redemptions->getResult();  }
-        if(count($redemptions) > 0) {
-            $maxRedemptions = max(array_map(function($e) {return (int)$e['rcount'];}, $redemptions));
-        } else {
-            $maxRedemptions = 1;
-        }
+        $participants = count($redemptions);
         // Add the grade based on our model
         $selectedGradingModel = $this->getRequest()->get('model', $gradingModel);
-        if($selectedGradingModel == 'reduction') {
-            $redemptions = array_map(function($e) use ($maxRedemptions) {
-                $e['grade'] = min($e['rcount']/$maxRedemptions*10, 10);
+        $instructor = $course->getUser();
+        if($selectedGradingModel == 'curved_grading') {
+            $redemptionsSum = 0;
+            foreach($redemptions as $curRedemption) {
+                $redemptionsSum = $redemptionsSum + $curRedemption['rcount'];
+            }
+            if($participants > 0) { $redemptionsMean = $redemptionsSum/$participants; } else { $redemptionsMean = 0.1; }
+            $redemptions = array_map(function($e) use ($redemptionsMean, &$instructor) {
+                $e['grade'] = $e['rcount']/$redemptionsMean*$instructor->getGradeMultiplier();
+                if($e['grade'] > $instructor->getMaxGrade()) { $e['grade'] = $instructor->getMaxGrade(); }
+                else if($e['grade'] < $instructor->getMinGrade()) { $e['grade'] = $instructor->getMinGrade(); }
                 $e['grade'] = round($e['grade'], 2);
                 return $e;
             }, $redemptions);
+        } else if($selectedGradingModel == 'ranking') {
+            // Ranking algo
+            usort($redemptions, function($a, $b) {
+                if($a['rcount'] == $b['rcount']) { return 0; }
+                if($a['rcount'] < $b['rcount']) { return 1; } else { return -1; }
+            });
+            $curRcount = 0;
+            $i = 0;
+            foreach($redemptions as &$curRedemption) {
+                if($curRedemption['rcount'] != $curRcount) {
+                    $i++;
+                    $curRedemption['grade'] = $i;
+                    $curRcount = $curRedemption['rcount'];
+                } else {
+                    $curRedemption['grade'] = $i;
+                }
+            }
         } else {
             return new Response('Invalid grading model selected');
         }
@@ -122,9 +149,13 @@ class QRController extends Controller {
         if(!in_array($selectedSortField, $headerFields)) {
             return new Response('Invalid sort attribute selected');
         }
-        uasort($redemptions, function($a, $b) use($selectedSortField) {
+        uasort($redemptions, function($a, $b) use($selectedSortField, $selectedSortDirection) {
             if($a[$selectedSortField] == $b[$selectedSortField]) { return 0; }
-            if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
+            if($selectedSortDirection == 'ASC') {
+                if($a[$selectedSortField] > $b[$selectedSortField]) { return 1; } else { return -1; }
+            } else {
+                if($a[$selectedSortField] < $b[$selectedSortField]) { return 1; } else { return -1; }
+            }
         });
         return $redemptions;
     }
@@ -198,6 +229,11 @@ class QRController extends Controller {
      */
     public function downloadQr(QrSet $qrset) {
         if($this->getRequest()->get('quantity') == null) { echo 'Quantity is required'; die(); }
+        $qrRequest = new QrRequest();
+        $qrRequest->setQrSet($qrset);
+        $qrRequest->setQuantity($this->getRequest()->get('quantity'));
+        $this->container->get('doctrine')->getManager()->persist($qrRequest);
+        $this->container->get('doctrine')->getManager()->flush($qrRequest);
         return $this->render('PixelbonusSiteBundle:QR:download.html.twig', array(
             'qrset' => $qrset,
             'quantity' => $this->getRequest()->get('quantity'),
@@ -205,49 +241,17 @@ class QRController extends Controller {
     }
 
     /**
-     * @Route("/qrset/{qrset}/generate", name="generate_qr")
+     * @Route("/qrrequest/{qrrequest}/download", name="download_generated_qr")
      * @Secure(roles="ROLE_USER")
      */
-    public function generateQr(QrSet $qrset) {
-        if($this->getRequest()->get('quantity') == null) { echo 'Quantity is required'; die(); }
-        $qrImages = array();
-        $toFlush = array($qrset);
-        for($i = $qrset->getQrcodes()->count(); $i < $qrset->getQrcodes()->count()+(int)$this->getRequest()->get('quantity'); $i++) {
-            // Create the QR Entity
-            $qrCode = new QrCode();
-            $qrCode->setQrset($qrset);
-            $hash = hash_hmac('sha1', $qrset->getId().'_'.$i, $qrset->getCourse()->getUser()->getPassword());
-            $qrCode->setCode($hash);
-            $this->container->get('doctrine')->getManager()->persist($qrCode);
-            $toFlush[] = $qrCode;
-
-            // Generate QR image based on the created entity
-            $qrImage = array();
-            $fileName = tempnam($this->container->getParameter("kernel.cache_dir"), 'qrimg');
-            $link = $this->container->get('router')->generate('redeem', array('hash' => $qrCode->getCode()), true);
-            \QRcode::svg($link, $fileName);
-            $qrImage['link'] = $qrCode->getCode();
-            $qrImage['svg'] = file_get_contents($fileName);
-            $xml = simplexml_load_string($qrImage['svg']);
-            $xml['width'] = 135;
-            $xml['height'] = 135;
-            $qrImage['svg'] = $xml->asXML();
-            $qrImages[] = $qrImage;
-        }
-        $this->container->get('doctrine')->getManager()->persist($qrset);
-        $this->container->get('doctrine')->getManager()->flush($toFlush);
-        $html = $this->container->get('templating')->render('PixelbonusSiteBundle:QR:qr_template.html.twig', array(
-            'qrImages' => $qrImages,
+    public function downloadGeneratedQr(QrRequest $qrrequest) {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if($qrrequest->getQrSet()->getCourse()->getUser() != $user) { throw new AccessDeniedException('Qr request does not belong to this user'); }
+        $pdf = $this->container->get('pixelbonus.qrrequest.manager')->getPdf($qrrequest);
+        return new Response($pdf, 200, array(
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => sprintf('attachment;filename="%s.pdf"', 'qr'),
         ));
-        if($this->getRequest()->get('html') == 'true') {
-            return new Response($html);
-        } else {
-            $pdf = $this->container->get('knp_snappy.pdf')->getOutputFromHtml($html);
-            return new Response($pdf, 200, array(
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => sprintf('attachment;filename="%s.pdf"', 'qr'),
-            ));
-        }
     }
 
     /**

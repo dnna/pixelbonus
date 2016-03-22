@@ -21,6 +21,7 @@ framework:
 
 parameters:
     locales: [el, en]
+    host: "pixelbonus.com"
 
 # Twig Configuration
 twig:
@@ -28,7 +29,7 @@ twig:
     strict_variables: %kernel.debug%
     globals:
         locales: %locales%
-        host: "//pixelbonus.com"
+        host: %host%
     form:
         resources:
           - 'PixelbonusSiteBundle:Form:form_fields.html.twig'

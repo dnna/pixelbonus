@@ -47,35 +47,39 @@ class User extends BaseUser
     /**
      * @ORM\Column(name="preferred_grading_model", type="string", nullable=true)
      */
-    protected $preferredGradingModel = 'reduction';
+    protected $preferredGradingModel = 'curved_grading';
+    /**
+     * @ORM\Column(name="grade_multiplier", type="float", nullable=false)
+     */
+    protected $gradeMultiplier = 9;
+    /**
+     * @ORM\Column(name="max_grade", type="integer", nullable=false)
+     */
+    protected $maxGrade = 10;
+    /**
+     * @ORM\Column(name="min_grade", type="integer", nullable=false)
+     */
+    protected $minGrade = 10;
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $locale = 'el';
 
     public function __construct() {
         parent::__construct();
         $this->courses = new ArrayCollection();
     }
 
-    public function getId() {
+    function getId() {
         return $this->id;
     }
 
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function getName() {
+    function getName() {
         return $this->name;
     }
 
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    public function getSurname() {
+    function getSurname() {
         return $this->surname;
-    }
-
-    public function setSurname($surname) {
-        $this->surname = $surname;
     }
 
     function getOrganization() {
@@ -86,6 +90,42 @@ class User extends BaseUser
         return $this->department;
     }
 
+    function getCourses() {
+        return $this->courses;
+    }
+
+    function getPreferredGradingModel() {
+        return $this->preferredGradingModel;
+    }
+
+    function getGradeMultiplier() {
+        return $this->gradeMultiplier;
+    }
+
+    function getMaxGrade() {
+        return $this->maxGrade;
+    }
+
+    function getMinGrade() {
+        return $this->minGrade;
+    }
+
+    function getLocale() {
+        return $this->locale;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setName($name) {
+        $this->name = $name;
+    }
+
+    function setSurname($surname) {
+        $this->surname = $surname;
+    }
+
     function setOrganization($organization) {
         $this->organization = $organization;
     }
@@ -94,19 +134,27 @@ class User extends BaseUser
         $this->department = $department;
     }
 
-    function getCourses() {
-        return $this->courses;
-    }
-
     function setCourses($courses) {
         $this->courses = $courses;
     }
 
-    function getPreferredGradingModel() {
-        return $this->preferredGradingModel;
-    }
-
     function setPreferredGradingModel($preferredGradingModel) {
         $this->preferredGradingModel = $preferredGradingModel;
+    }
+
+    function setGradeMultiplier($gradeMultiplier) {
+        $this->gradeMultiplier = $gradeMultiplier;
+    }
+
+    function setMaxGrade($maxGrade) {
+        $this->maxGrade = $maxGrade;
+    }
+
+    function setMinGrade($minGrade) {
+        $this->minGrade = $minGrade;
+    }
+
+    function setLocale($locale) {
+        $this->locale = $locale;
     }
 }
