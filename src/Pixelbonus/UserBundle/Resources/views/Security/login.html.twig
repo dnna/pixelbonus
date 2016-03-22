@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 {% if error is defined and error %}
-                    <div class="alert alert-danger alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    <div class="alert alert-danger alert-error">{{ error.messageKey|trans((error.messageData != null ? error.messageData : {}), 'security') }}</div>
                 {% endif %}
                 <form action="{{ path("fos_user_security_check", {'_locale': 'el'}) }}" method="post">
                     <div class="row control-group">
