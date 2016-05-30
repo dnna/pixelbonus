@@ -47,5 +47,15 @@ class { mysql::server::backup:
 
 This will set up a cron job that runs every day at 23:05 and generates a database backup in /root/pixelbonus_backups. The resulting files can be synced to a remote host using rsync or similar utilities.
 
+## Updating
+The project is based on the Symfony framework and utilizes a number of bundles, some of which might eventually need to be updated in order to resolve bugs or security issues. To update these libraries run the following command in the shell of the server while in the project's root folder:
+```bash
+composer update
+```
+Or if composer is not in PATH, run:
+```bash
+php composer.phar update
+```
+
 ## Try it out
 To try it out without installing visit http://www.pixelbonus.com
