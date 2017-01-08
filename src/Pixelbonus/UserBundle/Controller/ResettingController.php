@@ -21,7 +21,7 @@ class ResettingController extends BaseResettingController
         $username = $this->container->get('request')->request->get('username');
 
         /** @var $user UserInterface */
-        $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
+        $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
         if (null === $user) {
             return $this->render('FOSUserBundle:Resetting:request.html.twig', array(
@@ -39,13 +39,13 @@ class ResettingController extends BaseResettingController
 
         if (null === $user->getConfirmationToken()) {
             /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
-            $tokenGenerator = $this->get('fos_user.util.token_generator');
+            $tokenGenerator = $this->container->get('fos_user.util.token_generator');
             $user->setConfirmationToken($tokenGenerator->generateToken());
         }
 
-        $this->get('fos_user.mailer')->sendResettingEmailMessage($user);
+        $this->container->get('fos_user.mailer')->sendResettingEmailMessage($user);
         $user->setPasswordRequestedAt(new \DateTime());
-        $this->get('fos_user.user_manager')->updateUser($user);
+        $this->container->get('fos_user.user_manager')->updateUser($user);
 
         return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email',
             array('email' => $this->getObfuscatedEmail($user))
