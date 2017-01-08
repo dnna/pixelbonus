@@ -47,7 +47,7 @@ class ResettingController extends BaseResettingController
         $user->setPasswordRequestedAt(new \DateTime());
         $this->container->get('fos_user.user_manager')->updateUser($user);
 
-        return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email',
+        return new RedirectResponse($this->container->get('router')->generateUrl('fos_user_resetting_check_email',
             array('email' => $this->getObfuscatedEmail($user))
         ));
     }
